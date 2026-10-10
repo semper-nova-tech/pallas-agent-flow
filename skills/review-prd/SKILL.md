@@ -46,7 +46,7 @@ is minted later from this review; do not ask reviewers to open the run file.
 
 ```markdown
 # PRD Review
-Status: accepted | clarification-required | blocked
+Status: complete | clarification-required | blocked
 
 ## Executive summary
 ## Sources and evidence
@@ -69,7 +69,7 @@ behavior exists. Use `unknown` when evidence is absent.
 
 ## Approval checkpoint rules
 
-Return `accepted` only when:
+Return `complete` only when:
 
 - each requested behavior maps to a frontier item or explicit non-goal
 - acceptance is observable
@@ -81,4 +81,5 @@ scope, security, persistence, or user experience. Ask the smallest answerable qu
 Return `blocked` when the source is unavailable or internally irreconcilable.
 
 Return to the orchestrator only a short status, frontier summary, decision requests, and
-artifact path. Do not forward source text or a transcript.
+artifact path. Do not forward source text or a transcript. Do not ask the human to
+accept the review; the orchestrator owns every approval checkpoint.

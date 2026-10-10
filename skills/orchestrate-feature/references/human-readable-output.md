@@ -42,8 +42,6 @@ Published, committed review files:
 Run-folder evidence, gitignored with `.lore-flow/`:
 
 - `prd-reviews/<feature-slug>.md`
-- `requirements/<feature-slug>.md`
-- `architecture/<feature-slug>-overview.md`
 - `architecture/<feature-slug>-frontend.md`, `-backend.md`, or `-infrastructure.md`
 - `decisions/<decision-slug>.md`
 - `human-reviews/<action>-<subject-slug>.md`
@@ -58,8 +56,8 @@ force duplicate files.
 
 ## Index and renames
 
-Artifact index entries lead with Display name, Plain-language purpose, Type, and Status
-in plain language. Follow with Internal ID, version, path, inputs, evidence, and aliases.
+Artifact index rows lead with the readable name and path; internal ID, version, and
+status follow as columns. See [run-schema.md](run-schema.md).
 
 Renames preserve stable IDs and name aliases. Change a readable filename only through an
 explicit realignment plan. Record the old path and new path so prior links remain

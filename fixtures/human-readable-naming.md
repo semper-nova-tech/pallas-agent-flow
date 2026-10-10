@@ -30,8 +30,6 @@ destructive worktree replacement rides in a bulk approval.
 ## Readable filenames
 
 - `prd-reviews/hosted-order-events.md`
-- `requirements/hosted-order-events.md`
-- `architecture/hosted-order-events-overview.md`
 - `architecture/hosted-order-events-infrastructure.md`
 - `decisions/order-event-retry.md`
 - `human-reviews/approve-hosted-order-requirements.md`

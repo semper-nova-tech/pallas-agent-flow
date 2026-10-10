@@ -20,10 +20,13 @@ Accept optional constraints: issue or branch references, excluded paths, require
 PR policy, deployment environments, required reviewers, extra per-PR approval policy,
 user decisions already made, and an execution adapter (`native` or `herdr`).
 
-Load `config/presets.json` from the Lore Flow installation, select the named preset,
-and resolve its harness plus role/model mappings. Treat preset values as configuration,
+Resolve the named preset once with
+`jq --arg p NAME '.presets[$p]' config/presets.json` from the Lore Flow installation;
+do not page through the file. Record its harness, gates, and role/model mappings in
+`run.md` and read them from there afterwards. Treat preset values as configuration,
 not workflow semantics. If the preset, harness adapter, or required role is unavailable,
 stop with a precise missing-input report; never silently substitute a harness or model.
+If the preset name is missing, ask for it in the same turn with the available names.
 
 ## Run setup
 
@@ -51,14 +54,24 @@ The parent retains only:
 
 Never forward transcripts, raw agent conversations, or unbounded command output.
 
+Only the orchestrator talks to the human. Workers never ask for approval or decisions;
+they finish with status `complete`, `clarification-required`, or `blocked` and put
+decision requests in their return packet. The orchestrator marks an artifact
+`accepted` in the index; only a human `approves` a checkpoint.
+
 ## Workflow
 
 ### 1. Create technical specs
 
-The Opus orchestrator invokes `review-prd` and only the necessary `discover-stack`
+The orchestrator invokes `review-prd` and only the necessary `discover-stack`
 workers. Frontend, backend, and infrastructure discovery run concurrently when they
 touch independent areas. Then `plan-requirements` emits one technical-spec packet per
 independent implementation unit.
+
+Skip discovery workers for a greenfield repository: when `git ls-files` lists no
+application source, build, or CI files (only docs, licenses, and ignore files), write
+`discovery-index.md` yourself with one line per area citing that file list and the
+default `docs/features/<feature-slug>/` doc home.
 
 Each packet names the requirement frontier, owned files, contracts, side effects,
 dependencies, acceptance checks, and the smallest implementation that satisfies the
@@ -70,15 +83,16 @@ files. Record only applicable paths, why they apply, their content hashes, and
 Persist the requirements, architecture overview, guidance manifests, packet index, and
 versions in the run artifacts. The packet dependency graph is the execution plan.
 
-If the `herdr` adapter is selected, create one Herdr workspace and `agents` tab for
-the run using `adapters/herdr/lore-flow-herdr.sh`. Record the returned workspace,
-tab, and root pane IDs in the run artifact.
+If the `herdr` adapter is selected, create one Herdr workspace for the run using
+`adapters/herdr/lore-flow-herdr.sh workspace`. Record the returned workspace, tab, and
+root pane IDs in the run artifact. Use the adapter's `worker` command for every
+delegated role, not only builders; see [adapters/herdr/README.md](../../adapters/herdr/README.md).
 
 ### 2. Review the specs
 
 Invoke `ponytail` against the complete technical-spec set before any build. It challenges
 YAGNI, unnecessary abstractions, speculative infrastructure, scope drift, missing
-validation, and missing tests. The Opus orchestrator repairs rejected specs and reruns
+validation, and missing tests. The orchestrator repairs rejected specs and reruns
 the review until the set is accepted or explicitly blocked.
 
 Pause once for human approval of the Ponytail-approved technical-spec version. Do not
@@ -92,12 +106,12 @@ the packet, relevant repository instructions, dependency outputs, and approved
 artifacts. Independent packets run concurrently; dependent packets wait for their
 declared prerequisites.
 
-With the `herdr` adapter, split one child pane per ready packet, start Cursor Agent CLI
-in that pane with the selected builder model, and submit the bounded packet through
-`herdr agent prompt`. Keep the packet's worktree as the agent's working directory.
-Use `herdr agent wait` for completion; `blocked` is a recovery event and never a
-successful build. Native Cursor delegation remains the default when no adapter is
-selected.
+With the `herdr` adapter, run one adapter `worker` per ready packet with the packet's
+worktree as `--cwd` and the selected builder model; background independent workers
+with `&` and join them with `wait`. A non-zero exit or `blocked` status is a recovery
+event and never a successful build. Close a worker's pane with the adapter's `close`
+after its output is accepted. Native Cursor delegation remains the default when no
+adapter is selected.
 
 When a builder finishes, immediately invoke `ponytail` against that unit's diff and
 validation evidence. The review looks for unnecessary code, hidden coupling, contract
@@ -107,7 +121,7 @@ complete while other units continue.
 
 ### 4. Recover and report
 
-The Opus orchestrator reads `run.md`, `artifact-index.md`, packet versions, worktree
+The orchestrator reads `run.md`, `artifact-index.md`, packet versions, worktree
 state, commits, checks, and review findings. For a failure, preserve the failed
 worktree and evidence, then retry or repair only that unit. Do not restart accepted
 units.

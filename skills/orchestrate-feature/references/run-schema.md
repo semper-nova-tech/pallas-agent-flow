@@ -12,8 +12,10 @@ Create `.lore-flow/runs/<run-id>/run.md` with:
 - `status`: `active`, `awaiting-human-review`, `realigning`, `blocked`, `completed`, or
   `failed`
 - `target-repository`: canonical path
-- `prd-source`: path or authoritative reference
-- `preset`: selected key from `config/presets.json`
+- `prd-source`: path plus the approved commit (`path@commit`), or authoritative
+  reference. Read an older approved version with `git show <commit>:<path>`.
+- `preset`: selected key from `config/presets.json`, with its resolved harness, gates,
+  and role/model mappings
 - `harness`: resolved adapter or harness name
 - `started-at` and `updated-at`: ISO-8601 timestamps
 - `current-phase`: workflow phase name
@@ -26,31 +28,20 @@ Do not store secrets, credentials, or full transcripts.
 
 ## Artifact index
 
-Create `artifact-index.md`. Each entry leads with:
+Create `artifact-index.md` as one Markdown table, one row per artifact version:
 
-- display name
-- one-sentence plain-language purpose
-- type
-- status in plain language
+| Name | Path | ID | Version | Predecessor | Status | Producer | Inputs |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
-Then record:
+- **Path** is relative to the run root or repository-relative for published files.
+- **Version** is `v<n>` for run artifacts and the Git blob hash
+  (`git hash-object <path>`) for published files; never copy a published file into the
+  run folder to version it.
+- **Status** is `complete`, `accepted`, `approved`, `superseded`, or `blocked`.
+- Record aliases in `aliases.md`; diagram purpose, type, and source requirements live
+  in the document that embeds the diagram.
 
-- stable internal ID, version, and predecessor version
-- readable relative path under the run root
-- producing role and phase
-- input artifact IDs
-- one-sentence summary
-- evidence references
-- name and path aliases
-- timestamp
-
-Architecture draft entries also record domain, target durable path, and whether the
-draft is an overview, domain document, or ADR. For each embedded diagram, record purpose,
-type, home, source requirement IDs, delivery status, and validation evidence. Record a
-justified `none` when no diagram applies. Index every draft version separately; do not
-create a standalone diagram index unless repository complexity truly requires one.
-
-Update the index when an artifact changes. Preserve superseded artifacts or clearly record
+Add a row in the same step that writes the artifact. Preserve superseded artifacts or clearly record
 their replacement; do not silently overwrite material decisions.
 
 An accepted version is immutable. A candidate may coexist with it during review. Record
@@ -95,9 +86,7 @@ Use lowercase purpose slugs:
 
 - `prd-reviews/<feature-slug>.md`
 - `discovery/<feature-slug>-<area>.md`
-- `requirements/<feature-slug>.md`
-- `architecture/<feature-slug>-overview.md`
-- `architecture/<feature-slug>-<domain>.md` when relevant
+- `architecture/<feature-slug>-<domain>.md` when a domain draft is needed
 - `decisions/<decision-slug>.md`
 - `human-reviews/<action>-<subject-slug>.md`
 - `realignments/<change-slug>.md`
@@ -114,7 +103,9 @@ The committed review surface is the published pack in
 `README.md`, `technical-spec.md`, `architecture-overview.md`, `sequence.md`, and
 `prs/<nn>-<domain>-<purpose-slug>.md`. See [published-docs.md](published-docs.md).
 
-Architecture files under the run root are versioned evidence. Durable domain docs still
+The published technical spec is the only requirements document and the published
+architecture overview is the only overview; neither has a run-folder copy. Domain
+architecture drafts under the run root are evidence. Durable domain docs still
 follow the repository convention, or `docs/architecture/` and `docs/adr/` when none
 exists. Diagrams live in the published architecture overview and PR notes by default.
 
@@ -141,4 +132,7 @@ A phase is complete only when its required artifact:
 2. is indexed,
 3. records inputs and evidence,
 4. states unresolved unknowns or blockers, and
-5. has status `accepted` or an explicit authorized exception.
+5. has index status `accepted` or an explicit authorized exception.
+
+Workers report `complete`. Only the orchestrator marks an artifact `accepted`, and only
+a human records `approved` at a checkpoint.

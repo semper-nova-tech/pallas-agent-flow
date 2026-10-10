@@ -12,6 +12,8 @@ paths, and all returned narration.
 - objective and explicit non-goals
 - target repository and allowed scope
 - accepted input names, with IDs, versions, and paths as metadata
+- non-authoritative sources: notes, brainstorms, or superseded drafts the recipient
+  must not import behavior from, or `none`
 - guidance manifest path and version
 - relevant named requirements, with IDs for traceability
 - named decisions and consequences that constrain the task
@@ -66,7 +68,7 @@ Add:
 
 The result must use named model/contract/state/behavior requirements and a dependency
 graph. Include published spec, architecture-overview, and systems-summary paths, plus
-architecture impact and versioned run-draft outputs. Include the diagram policy and each
+architecture impact and any domain run-draft outputs. Include the diagram policy and each
 selected diagram's purpose, type, home, source requirements, and validation convention.
 It must not rely on unstated transcript context.
 
@@ -82,7 +84,7 @@ Add:
 - contracts consumed or exposed
 - rollout/configuration duties
 - published PR note and owned architecture-overview facet paths
-- assigned durable architecture/ADR paths and versioned run-draft sources
+- assigned durable architecture/ADR paths and any domain run-draft sources
 - approved diagrams assigned to those docs and their source requirement IDs
 - architecture/ADR paths explicitly outside this PR's ownership
 - diagrams explicitly outside this PR's ownership
@@ -156,11 +158,13 @@ actions requiring approval, preserved artifact versions, and the next approval c
 
 Every delegated task returns no more than:
 
-- outcome: `accepted`, `changes-required`, or `blocked`
+- outcome: `complete`, `clarification-required`, `changes-required`, or `blocked`
+  (reviewers such as Ponytail use `accepted` for their verdict)
 - summary of at most ten bullets
 - created or updated artifact IDs and paths
 - evidence/check summary
 - decisions or blockers requiring parent action
 
 Full detail belongs in the indexed artifact. The parent consumes the return packet and
-artifact index, not the agent transcript.
+artifact index, not the agent transcript. Workers never ask the human for approval or
+decisions; they return decision requests to the orchestrator.

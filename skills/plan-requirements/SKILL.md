@@ -19,7 +19,7 @@ Do not rely on conversations or transcripts. If an input is missing or contradic
 return `blocked` with the exact artifact or decision needed.
 Apply the orchestrator human-readable output policy to every created element and path.
 Mint the published technical spec, systems summary, and architecture overview per the
-orchestrator published-docs policy. Keep detailed run drafts as evidence only.
+orchestrator published-docs policy. Do not copy them into the run folder.
 
 ## Requirement taxonomy
 
@@ -46,8 +46,7 @@ Give each requirement a display name and plain-language meaning, with an ID such
    exact durable architecture/ADR updates using discovered repository conventions.
 9. Apply the orchestrator diagram policy. Before requirements approval, select each
    required diagram and record its purpose, type, home, and source requirement IDs.
-10. Embed selected diagrams in the published architecture overview. Keep run drafts as
-    evidence copies.
+10. Embed selected diagrams in the published architecture overview.
 11. Verify that each requirement is necessary; leave implementation choices open unless
     the choice is itself required for compatibility or correctness.
 
@@ -61,18 +60,20 @@ end state, simple object models, contracts, and justified diagrams. Give each fa
 stable heading. Write the technical spec with full PRD-derived behaviors. Write the
 systems summary as the feature README.
 
-Keep versioned copies under the run root as evidence. Do not create published docs for
-trivial implementation details. Record `none` when architecture is unchanged. Use
+Git history versions the published docs; do not keep copies under the run root. Write
+domain drafts under `architecture/` only for durable domain docs a PR will own later.
+Do not create published docs for trivial implementation details. Record `none` when architecture is unchanged. Use
 embedded Mermaid unless discovery found a repository-native alternative.
 
 ## Output contract
 
-Write the run evidence file `requirements/<feature-slug>.md` and the published files
-`docs/features/<feature-slug>/{README,technical-spec,architecture-overview}.md`:
+Write `docs/features/<feature-slug>/{README,technical-spec,architecture-overview}.md`.
+`technical-spec.md` is the requirements document and uses this shape after its
+behavior sections:
 
 ```markdown
 # Technical Requirements
-Status: accepted | clarification-required | blocked
+Status: complete | clarification-required | blocked
 
 ## Scope and constraints
 ## Requirement index
@@ -90,7 +91,7 @@ Status: accepted | clarification-required | blocked
 - Evidence:
 - Architecture impact: none | update | decision
 - Durable docs/ADRs: [exact target paths and action, or none]
-- Run drafts: [versioned architecture paths, or none]
+- Domain drafts: [run `architecture/` paths, or none]
 - Non-goals:
 ## Dependency graph
 ## Cross-area contracts
@@ -113,8 +114,9 @@ an acceptance check. No orphan frontier items or requirements are allowed.
 
 ## Approval checkpoint
 
-Accept only if requirements are named, necessary, testable, area-owned, dependency-aware,
+Return `complete` only if requirements are named, necessary, testable, area-owned, dependency-aware,
 evidence-backed, and explicit about architecture documentation and justified diagram
 coverage. Every selected diagram must already be in the published architecture overview.
-Escalate product choices; do not resolve them as technical details.
+Escalate product choices to the orchestrator; do not resolve them as technical details
+or ask the human directly.
 Return status, counts by type and owner, blockers, and the published paths.

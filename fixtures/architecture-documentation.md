@@ -16,7 +16,6 @@ The repository has no architecture or ADR convention.
     "docs/features/bulk-export/architecture-overview.md"
   ],
   "drafts": [
-    "architecture/bulk-export-overview.md",
     "architecture/bulk-export-backend.md",
     "architecture/bulk-export-infrastructure.md",
     "decisions/asynchronous-export-jobs.md"

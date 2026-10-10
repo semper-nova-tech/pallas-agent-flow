@@ -37,7 +37,8 @@ lede. No run-folder paths except an optional evidence footnote.
 
 Full behaviors that come out of the PRD: actors, triggers, acceptance, failures,
 empty/loading/retry cases, in-scope, out-of-scope, and named model/contract/state/
-behavior requirements. This is the committed spec, not a dump of frontier IDs.
+behavior requirements. This is the committed spec, not a dump of frontier IDs. It is
+the only requirements document; there is no run-folder copy.
 
 ### End-state architecture — `architecture-overview.md`
 
@@ -50,7 +51,8 @@ Describe the system after this work lands. Include only:
 
 Give every model, contract, and diagram a heading so PR notes can link to that facet.
 Do not bury the end state in per-area draft files. Domain drafts may exist in the run
-folder as evidence; the published overview is the architecture people read.
+folder as evidence; the published overview is the architecture people read and has no
+run-folder copy.
 
 ### Sequence — `sequence.md`
 

@@ -108,9 +108,9 @@ that is already running keeps the skill list it started with.
 ### Optional Herdr adapter
 
 Herdr users can select `herdr` as the execution adapter. The adapter creates one
-workspace and `agents` tab for the run, then launches each Cursor builder in a real
-child pane while Lore Flow retains ownership of packets, worktrees, reviews, and
-recovery. See [adapters/herdr/README.md](adapters/herdr/README.md).
+workspace for the run, then launches each Cursor worker in a real child pane and
+waits for it to settle, while Lore Flow retains ownership of packets, worktrees,
+reviews, and recovery. See [adapters/herdr/README.md](adapters/herdr/README.md).
 
 ### Cursor CLI, one session
 
@@ -319,7 +319,6 @@ Each run writes recovery evidence under the target repository. Gitignore this tr
 ├── artifact-index.md
 ├── prd-reviews/<feature-slug>.md
 ├── discovery/
-├── requirements/<feature-slug>.md
 ├── guidance/<packet-id>.md
 ├── architecture/
 ├── decisions/

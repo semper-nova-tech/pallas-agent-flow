@@ -60,10 +60,13 @@ Cover, as applicable:
 
 After each answer round:
 
-1. Update the draft PRD.
-2. List resolved assumptions and remaining open questions.
-3. Check the draft against the product context for conflicts.
-4. Ask the next smallest set of questions that materially affects product
+1. Edit only the changed sections of `product/prds/<feature-slug>.md` and the
+   product context files in place; do not rewrite whole files.
+2. Commit only those files as `prd(<feature-slug>): draft v<n>`. The commit is the
+   draft version; do not copy drafts elsewhere.
+3. Append the round's resolved decisions to `interview-decisions.md`.
+4. Check the draft against the product context for conflicts.
+5. Ask the next smallest set of questions that materially affects product
    behavior.
 
 Do not start technical discovery, choose an implementation, or launch builders.
@@ -112,30 +115,35 @@ Before requesting approval, review the draft for:
 If material gaps remain, return to the interview. Do not ask for approval of a
 PRD containing unresolved choices that would change product behavior.
 
-Present the exact draft path and a short change summary. Pause for explicit
-human approval. An approval must name the PRD version or exact file contents;
-silence, an edited file, or a conversational “looks good” without identifying
-the artifact is not approval.
+Present the exact draft path, version, commit, and a short change summary. Pause
+for explicit human approval. An approval must name the PRD version or exact file
+contents; silence, an edited file, or a conversational “looks good” without
+identifying the artifact is not approval.
 
-If the human requests changes, preserve the prior draft, record the feedback
-and resulting decisions, revise only the affected sections, and repeat review
-and approval. Never overwrite approved history.
+If the human requests changes, record the feedback and resulting decisions,
+revise only the affected sections, commit the next draft, and repeat review and
+approval. Git history preserves every prior draft. Never amend or rewrite an
+approved commit.
+
+Keep approval status out of the PRD file so the approved commit stays byte-for-byte
+the approved text.
 
 ## Outputs
 
 Create or update:
 
-- `product/prds/<feature-slug>.md` as the approved PRD
-- `.lore-flow/product-specs/<run-id>/` as ignored run evidence, including
-  interview decisions, context inventory, draft versions, review findings, and
-  approval record
+- `product/prds/<feature-slug>.md` as the approved PRD, committed once per draft
+- `.lore-flow/product-specs/<run-id>/` as ignored run evidence with only:
+  - `interview-decisions.md`: decisions appended per round
+  - `approval-record.md`: status, approved version, approved commit, and the
+    review findings that cleared it
 
 The final report must state one of:
 
-- `approved` — exact PRD path and version approved
+- `approved` — exact PRD path, version, and commit approved
 - `awaiting-human-review` — exact draft and approval action required
 - `clarification-required` — the smallest unanswered product decisions
 - `blocked` — missing repository access or required context
 
-After approval, hand the PRD path to `orchestrate-feature`; do not invoke it
+After approval, hand `path@commit` to `orchestrate-feature`; do not invoke it
 automatically unless the human explicitly requests implementation.

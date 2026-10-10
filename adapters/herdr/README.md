@@ -1,6 +1,6 @@
 # Herdr adapter
 
-This optional adapter runs Lore Flow Cursor builders in real Herdr panes.
+This optional adapter runs Lore Flow Cursor workers in real Herdr panes.
 Native Cursor delegation remains the default.
 
 ## Prerequisites
@@ -12,35 +12,43 @@ Native Cursor delegation remains the default.
 
 ## Adapter contract
 
-1. Create one Herdr workspace and `agents` tab per Lore Flow run.
-2. Give the adapter the tab root pane and create one child pane per ready packet.
-3. Start one Cursor Agent CLI in each child pane with the packet's worktree and
-   selected implementation model.
-4. Send the bounded build packet with `herdr agent prompt`.
-5. Wait with `herdr agent wait`; treat `blocked` as a recovery event, not success.
+1. Create one Herdr workspace per Lore Flow run and use its root pane.
+2. Start one worker per packet. `worker` splits the largest pane in that tab, starts
+   Cursor Agent CLI with the packet's working directory and model, submits the packet
+   with `herdr agent prompt --wait`, and returns when the worker settles.
+3. `worker` exits non-zero when the worker ends `blocked` or the wait fails. Treat that
+   as a recovery event, never success.
+4. Run independent workers concurrently with `&` and the shell's `wait`.
+5. Close a worker's pane with `close` only after the orchestrator has accepted its
+   output. Keep failed panes open during recovery.
 6. Keep the Lore Flow run artifacts and Git worktree state as the source of truth.
-
-The helper script uses Herdr's JSON IDs rather than predicting pane or workspace IDs:
 
 ```bash
 adapters/herdr/lore-flow-herdr.sh workspace \
   --cwd /path/to/repo \
   --label lore-flow
+# {"workspace_id": "...", "tab_id": "...", "pane_id": "..."}
 
 adapters/herdr/lore-flow-herdr.sh worker \
-  --pane WORKSPACE_TAB_ROOT_PANE \
+  --pane ROOT_PANE_ID \
   --name build-api \
   --cwd /path/to/worktree \
   --model cursor-grok-4.6-high-fast \
   --prompt-file /path/to/build-packet.md \
   --run-id RUN_ID \
-  --packet-id PACKET_ID
+  --packet-id PACKET_ID \
+  --timeout 900000 &
+adapters/herdr/lore-flow-herdr.sh worker ... &
+wait
 
-adapters/herdr/lore-flow-herdr.sh wait \
-  --name build-api \
-  --timeout 120000
+adapters/herdr/lore-flow-herdr.sh close --name build-api
 ```
+
+`wait --name NAME` re-checks a worker that already received its prompt. Do not use it
+to detect completion of a prompt that was just sent; `worker` already waited.
 
 Do not close failed panes or delete failed worktrees during recovery. Herdr is the
 visibility and input layer; Lore Flow remains responsible for packets, reviews,
 commits, and recovery decisions.
+
+Run `adapters/herdr/check.sh` after changing the script. It uses a fake `herdr`.
