@@ -17,16 +17,25 @@ Lore Flow offers three operating presets:
 
 - **normal** favors short plans, a small number of agents, and focused reviews;
   use it for routine changes with known boundaries.
-- **heavy** adds deeper decomposition, stricter dependency gates, and more
+- **heavy** adds deeper decomposition, stricter dependency checks, and more
   review passes; use it for migrations, cross-system work, or high-risk changes.
-- **simple** uses one Opus-led spec/recovery loop, Ponytail gates, and parallel
+- **simple** uses one Opus-led spec/recovery loop, Ponytail reviews, and parallel
   Cursor builders; use it when independent technical specs can be implemented
   concurrently.
 
 A preset is a starting policy, not a promise that a particular model or amount
 of parallelism is available. Select the harness-qualified key from
 `config/presets.json`, such as `cursor.simple`, `cursor.normal`, or
-`claude.heavy`.
+`claude.heavy`. Each preset names its approval checkpoints
+(`approvalCheckpoints`), its published-pack mode (`publishedPack`: `committed`,
+`local`, or `none`), and the model candidates per role. Artifact paths are not
+preset values; the run schema owns them.
+
+## Vocabulary
+
+Lore Flow uses one name per concept. [docs/glossary.md](docs/glossary.md) defines
+every term, the reserved ID prefix for each record type, and the allowed status words.
+Skills, agents, and run artifacts use those names and no synonyms.
 
 ## Product spec mode
 
@@ -35,9 +44,13 @@ or product change into an approved PRD before implementation planning. It is a
 human-in-the-loop interview and review loop, not a build preset:
 
 ```text
-idea or change → product context → focused interview → PRD review
-             → human approval → product/prds/<feature-slug>.md
+idea or change → product context → shape of the deliverable → focused interview
+             → PRD review → human approval → product/prds/<feature-slug>.md
 ```
+
+The first round settles whether the PRD describes user-visible components, user
+journeys, or parity cases, and confirms five one-line stories in that shape. Every
+draft opens with what changed, carries stable `Q-` and `AC-` IDs, and lists its terms.
 
 Invoke `/product-spec` (or ask the active harness to run Lore Flow's
 product-spec mode) against a target repository. The mode reads and, when
@@ -293,45 +306,62 @@ only work whose prerequisites are satisfied.
 ## Published review pack
 
 Reviewers should not open `.lore-flow/`. After planning, the workflow mints a
-committed pack, by default:
+review pack, by default:
 
 ```text
 docs/features/<feature-slug>/
-├── README.md                      # systems summary
-├── technical-spec.md              # full PRD-derived behaviors
-├── architecture-overview.md       # end-state models, contracts, diagrams
+├── README.md                      # systems summary, Status line, links
+├── technical-spec.md              # behaviors; each requirement states Today and After
+├── architecture-overview.md       # Today → After, models, contracts, diagrams
+├── glossary.md                    # naming contract: terms and every surface they take
 ├── sequence.md                    # PR order and dependency DAG
 └── prs/
-    └── <nn>-<domain>-<purpose>.md # this PR's slice, with pseudo-code or nominal flow
+    └── <nn>-<domain>-<purpose>.md # Before / After / See it / Files / Checks, then the slice
 ```
 
-Each PR note links to facets of the architecture overview. Keep `.lore-flow/` in
-the target repository `.gitignore`; copy [templates/gitignore](templates/gitignore) if
-needed.
+The preset's `publishedPack` mode decides whether the pack is committed, kept local
+and git-excluded, or not minted. Each PR note links to facets of the architecture
+overview. Keep `.lore-flow/` in the target repository `.gitignore`; copy
+[templates/gitignore](templates/gitignore) if needed.
+
+## Naming contract
+
+The feature glossary is the source of truth for names. One row per term that crosses a
+boundary: meaning, kind, owner, model type, verb-first function names, module, wire
+name, status, and alias. Discovery seeds it with what already exists; PRD review adds
+new terms with meanings; planning binds the surfaces; each PR owns the rows it may
+export; Ponytail reviews names at both review points; the final report reconciles rows
+against shipped exports. A rename is an alias row. A change of meaning is a scope
+change. The technical spec keeps owning shapes.
 
 ## Run artifacts
 
 Each run writes recovery evidence under the target repository. Gitignore this tree:
 
 ```text
-.lore-flow/runs/<run-id>/
-├── run.md
-├── artifact-index.md
+.lore-flow/runs/<yyyy-mm-dd>-<ticket>-<feature-slug>/
+├── run.md                         # names, where things stand, decisions, blockers
+├── artifact-index.md              # one table; the only source of version numbers
+├── aliases.md                     # every rename, old name to new
+├── invalidations.md               # what each change made untrustworthy
 ├── prd-reviews/<feature-slug>.md
-├── discovery/
-├── guidance/<packet-id>.md
+├── discovery/<feature-slug>-<area>.md
+├── guidance/<pr-id>.md
 ├── architecture/
 ├── decisions/
-├── human-reviews/
-├── realignments/
-├── pull-requests/
+├── human-reviews/<action>-<subject>.md
+├── realignments/<change-slug>.md
+├── pull-requests/<nn>-<domain>-<purpose>-{packet,build,review}.md
+├── superseded/<path>/v<n>.md
 └── reports/<feature-slug>-final.md
 ```
 
-`run.md` records status, phase, constraints, decisions, and blockers.
-`artifact-index.md` links published files and run evidence. Preserve superseded
-decisions instead of silently overwriting them; recovery must not depend on replaying
-chat text.
+`run.md` leads with a regenerated "Where things stand" table so a reader learns the
+state of every unit without reading a log. Accepted versions are immutable; a change
+is the next version with a `Changed since` section, and the prior file moves to
+`superseded/`. Before every checkpoint, builder dispatch, and final report, the
+orchestrator runs a consistency check over paths, versions, status words, and the state
+table. Recovery must not depend on replaying chat text.
 
 Artifacts and narration lead with readable names and plain-language purpose. Internal IDs
 and versions remain index metadata for exact traceability. For example:
@@ -366,21 +396,28 @@ its slice.
 Every run pauses at these approval checkpoints before builds:
 
 1. Requirements approval, after Ponytail accepts the technical requirements.
-2. PR sequence approval, after the sequence and PR notes are generated.
-3. Per-PR approval, before each PR build. This is on by default (`each-pr: true`);
-   set it to `false` in the preset to skip.
+2. PR sequence approval, after the sequence, PR notes, manifests, and packets exist.
+3. Per-PR approval, before each PR build. This is on by default (`each-pr: true`
+   under `approvalCheckpoints`); set it to `false` in the preset to skip.
 
 At each pause, status is `awaiting-human-review`. The reviewer receives the published
-pack first, then exact versions. Lore Flow records the reviewer's
-identity, decision, timestamp, comments, and reviewed versions, then resumes
-only on explicit approval. Per-PR approval supplements, and never replaces, the
-requirements and sequence checkpoints.
+pack first, then exact versions and each artifact's `Changed since` section. Lore Flow
+records the reviewer's identity, decision, timestamp, comments, and reviewed versions
+in one file per checkpoint, then resumes only on explicit approval. A decision is
+`approved`, `changes-requested`, or `rejected`; an approval whose comments change a
+contract, path, owner, dependency, protocol, or term meaning is recorded as
+`changes-requested`. Per-PR approval supplements, and never replaces, the requirements
+and sequence checkpoints.
 
-Reviewers may edit names, requirements, design, scope, or sequence and request
-changes. Invoke `realign-run` with the run ID and review record. It preserves
-accepted history, records rename aliases, computes transitive impact, and
-supersedes only affected downstream artifacts. Unaffected accepted work stays
-valid, and the run returns to the earliest impacted approval checkpoint.
+`realign-run` is the only path for a change of course. The orchestrator invokes it
+when a checkpoint reply is not one of the three decisions, when an instruction during a
+build changes a unit's contract or names, when a review commit renames an exported
+symbol a packet named, when the base branch moves, or when a unit is put on hold or
+closed without merge. It preserves accepted history, records aliases, computes
+transitive impact, refreshes the run state table and the published `Status:` lines, and
+supersedes only affected downstream artifacts. Unaffected accepted work stays valid,
+and the run returns to the earliest impacted approval checkpoint. After two redesigns
+of one unit the run returns to the requirements checkpoint.
 
 When builds or worktrees already exist, realignment proposes `keep`, `rebase`,
 `replace`, or `cancel` for each affected unit. It does not mutate or discard
@@ -445,6 +482,10 @@ If recorded state disagrees with Git or the filesystem, preserve both, mark the
 unit blocked, and require reconciliation. Do not silently recreate branches,
 discard worktrees, skip a failed review, or infer success from a previous chat.
 
+A run that stops for any reason gets a final report. `parked`, `pivoted`, and
+`abandoned` are terminal statuses; the report says where every unit stands and where
+the accurate end-state description now lives.
+
 ## Models and fallbacks
 
 Model names are preferences interpreted by the active harness. Availability can
@@ -465,9 +506,9 @@ skills narrow and actionable—for example, TypeScript conventions, test
 commands, accessibility checks, database migration rules, or release
 requirements—and reference them from repository agent guidance when necessary.
 
-The orchestrator creates a small guidance manifest for each implementation packet.
-It records applicable `AGENTS.md`, `.cursor/rules/`, and `.agents/skills/` paths,
-reasons, statuses, and content hashes without copying their contents. Workers read
-the exact manifest before editing and record guidance used or explicitly skipped in
-the build report. Repository instructions override generic workflow examples when
-they do not violate a run's explicit safety gates.
+The orchestrator creates a small guidance manifest for each implementation packet at
+sequencing time. It records applicable, Git-tracked `AGENTS.md`, `.cursor/rules/`, and
+`.agents/skills/` paths, reasons, statuses, and content hashes without copying their
+contents. Workers read the exact manifest before editing and record, per entry, the
+hash they read and whether they applied or skipped it in the build report. Repository instructions override generic workflow examples when
+they do not violate a run's explicit safety rules.

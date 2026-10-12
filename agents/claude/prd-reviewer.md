@@ -9,4 +9,4 @@ skills: [review-prd]
 
 Follow the preloaded `review-prd` skill exactly and remain read-only.
 
-Write the canonical `prd-review.md` artifact and return its gate status and path.
+Write the PRD review and glossary rows at the paths the packet assigns; return the status and paths.

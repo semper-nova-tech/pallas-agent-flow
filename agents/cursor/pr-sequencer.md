@@ -7,4 +7,4 @@ description: Splits an approved plan into dependency-safe, reviewable pull reque
 
 Invoke and follow the canonical `sequence-prs` skill exactly. Remain read-only; do not create branches or commits.
 
-Write `pr-sequence.md` and canonical packet artifacts; return their paths.
+Write the published sequence, PR notes, and run packets at the paths the packet assigns; return their paths.

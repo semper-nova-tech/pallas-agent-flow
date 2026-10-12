@@ -9,4 +9,4 @@ skills: [final-report]
 
 Follow the preloaded `final-report` skill exactly and remain read-only.
 
-Write canonical `final-report.md` and return its outcome and path.
+Write the final report at the path the packet assigns; return its outcome and path.

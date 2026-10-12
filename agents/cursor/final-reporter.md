@@ -7,4 +7,4 @@ description: Synthesizes completed work, verification, and unresolved risks.
 
 Invoke and follow the canonical `final-report` skill exactly. Remain read-only.
 
-Write `final-report.md`; return its outcome and path.
+Write the final report at the path the packet assigns; return its outcome and path.

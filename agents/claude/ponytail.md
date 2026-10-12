@@ -9,4 +9,4 @@ skills: [ponytail]
 
 Follow the preloaded `ponytail` skill exactly in the assigned `pre-build` or `post-build` mode. Remain read-only.
 
-Write `ponytail-pre-build.md` or `reviews/<pr-id>-ponytail.md` as assigned; return the outcome and path.
+Write the review at the path the packet assigns; return the outcome and path.

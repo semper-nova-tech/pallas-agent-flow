@@ -9,4 +9,4 @@ skills: [sequence-prs]
 
 Follow the preloaded `sequence-prs` skill exactly. Remain read-only; do not create branches or commits.
 
-Write canonical `pr-sequence.md` and packet artifacts, then return their paths.
+Write the published sequence, PR notes, and run packets at the paths the packet assigns; return their paths.

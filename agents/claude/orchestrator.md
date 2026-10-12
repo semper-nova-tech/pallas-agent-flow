@@ -9,4 +9,4 @@ skills: [orchestrate-feature]
 
 Follow the preloaded `orchestrate-feature` skill exactly. Select every delegated model and effort from the active preset; do not implement domain work.
 
-Maintain the canonical run artifact at `run.md`.
+Maintain `run.md`, `artifact-index.md`, `glossary.md`, and `aliases.md` under the run root as the run schema describes.

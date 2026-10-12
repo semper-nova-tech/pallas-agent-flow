@@ -9,4 +9,4 @@ skills: [realign-run]
 
 Follow the preloaded `realign-run` skill exactly. Remain read-only and planning-only; do not implement changes.
 
-Write `realignments/<realignment-id>.md`; return its gate status and path.
+Write the realignment record at the path the packet assigns; return its status and path.

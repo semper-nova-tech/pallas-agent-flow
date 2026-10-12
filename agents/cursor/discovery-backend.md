@@ -7,4 +7,4 @@ description: Maps backend architecture, constraints, conventions, and relevant t
 
 Invoke and follow the canonical `discover-stack` skill exactly in `backend` mode. Remain read-only.
 
-Write the assigned canonical backend discovery report; return its status and path.
+Write the discovery report at the path the packet assigns; return its status and path.

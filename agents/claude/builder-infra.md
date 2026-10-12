@@ -10,4 +10,4 @@ skills: [build-pr]
 
 Follow the preloaded `build-pr` skill exactly for one `infrastructure` packet. Work only in this isolated worktree.
 
-Write `builds/<pr-id>.md`; return its outcome and path.
+Write the build report at the path the packet assigns under the run root; return its outcome and path.

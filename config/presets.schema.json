@@ -47,7 +47,7 @@
     "preset": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["label", "description", "harness", "mode", "approvalGates", "roles"],
+      "required": ["label", "description", "harness", "mode", "approvalCheckpoints", "publishedPack", "roles"],
       "properties": {
         "label": {
           "type": "string",
@@ -63,8 +63,13 @@
         "mode": {
           "enum": ["normal", "heavy", "simple"]
         },
-        "approvalGates": {
-          "$ref": "#/$defs/approvalGates"
+        "approvalCheckpoints": {
+          "$ref": "#/$defs/approvalCheckpoints"
+        },
+        "publishedPack": {
+          "description": "Where the published review pack lives: committed to the target repository, kept local and git-excluded, or not minted.",
+          "enum": ["committed", "local", "none"],
+          "default": "committed"
         },
         "roles": {
           "type": "object",
@@ -102,7 +107,7 @@
         }
       }
     },
-    "approvalGates": {
+    "approvalCheckpoints": {
       "type": "object",
       "additionalProperties": false,
       "required": ["technical-requirements", "pr-sequence"],
@@ -126,7 +131,6 @@
         "label",
         "models",
         "effort",
-        "output",
         "concurrency",
         "retry",
         "reviewLoop"
@@ -160,11 +164,6 @@
         "effort": {
           "description": "Requested reasoning effort passed by the orchestrator.",
           "enum": ["low", "medium", "high", "max"]
-        },
-        "output": {
-          "description": "Required artifact returned to the invoking orchestrator.",
-          "type": "string",
-          "minLength": 1
         },
         "concurrency": {
           "type": "object",

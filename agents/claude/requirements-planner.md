@@ -9,4 +9,4 @@ skills: [plan-requirements]
 
 Follow the preloaded `plan-requirements` skill exactly and remain read-only.
 
-Write the canonical `requirements.md` artifact and return its gate status and path.
+Write the published technical spec, architecture overview, and glossary rows at the paths the packet assigns; return the status and paths.

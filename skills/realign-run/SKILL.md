@@ -1,6 +1,6 @@
 ---
 name: realign-run
-description: Reconciles explicit human edits or review changes, preserves history, computes downstream impact, and returns the next approval checkpoint. Use when a reviewer changes accepted planning artifacts.
+description: Reconciles explicit human edits, review changes, mid-build instructions, and scope pivots; preserves history, refreshes run state and published docs, and returns the next approval checkpoint. Use whenever a human changes course after an artifact was accepted.
 ---
 
 # Realign Run
@@ -8,15 +8,28 @@ description: Reconciles explicit human edits or review changes, preserves histor
 Reconcile human changes without silently rewriting an accepted plan. Preserve accepted
 artifacts, decisions, and implementation work until the reviewer approves a safe path.
 
+## Triggers
+
+The orchestrator invokes this skill, never the worker, when:
+
+- a checkpoint reply is anything other than `approved`, `changes-requested`, or
+  `rejected`, or an approval carries answers that change a contract, path, owner,
+  dependency, protocol, or term meaning;
+- an instruction during a build changes a unit's contract, scope, or names;
+- a review commit renames or removes an exported symbol named in a packet;
+- an external change moves the base branch or a dependency;
+- a unit is put on hold, closed without merge, replaced, or the run is parked, pivoted,
+  or abandoned.
+
 ## Inputs
 
 Require:
 
-- run ID and run artifact root
-- reviewer identity
-- review decision and comments
+- run ID and absolute run root
+- the trigger, reviewer identity, decision, and comments
 - changed naming, requirement, design, sequencing, or scope artifacts
-- current run manifest, artifact index, decisions, reviews, and dependency graph
+- current run manifest, artifact index, glossary, aliases, decisions, reviews, and
+  dependency graph
 
 Also inspect existing branches, worktrees, and build reports when implementation exists.
 Treat direct human edits as proposed changes, not implicit approval.
@@ -30,16 +43,19 @@ Assign every change one or more classes:
 - `requirement`: frontier, acceptance, ownership, or necessity changes
 - `contract-model-state-behavior-design`: a technical design boundary changes
 - `sequencing`: PR grouping, dependencies, order, or parallelism changes
-- `scope`: included, excluded, deferred, or cross-area work changes
+- `scope`: included, excluded, deferred, on-hold, replaced, or cross-area work changes
 
-If a rename changes meaning, classify the semantic change too. Record uncertainty and ask
-the reviewer; never downgrade a change to reduce reruns.
+Check every changed name against the feature glossary. A change that edits a row's
+Meaning, or introduces a wire name, module, or tool whose noun has no row, is `scope`,
+never `rename-only`. If a rename changes meaning, classify the semantic change too.
+Record uncertainty and ask the reviewer; never downgrade a change to reduce reruns.
 
 For every design or naming change, record impact on the published spec, architecture
-overview, sequence, PR notes, run drafts, and durable architecture/ADR paths. A design change regenerates only affected drafts
-and revalidates their durable-doc assignments. A `rename-only` change preserves aliases,
-stable IDs, and decision history, and refreshes only documents that contain the affected
-name; it does not rewrite unrelated architecture.
+overview, glossary, sequence, PR notes, run drafts, and durable architecture/ADR paths.
+A design change regenerates only affected drafts and revalidates their durable-doc
+assignments. A `rename-only` change updates the glossary row, adds an alias row, and
+refreshes only documents that contain the affected name; it does not rewrite unrelated
+architecture.
 
 Apply the same bounds to embedded diagrams. Refresh only diagrams reached by the changed
 requirements, contracts, topology, state, or sequence; preserve unaffected diagrams.
@@ -48,22 +64,31 @@ IDs and relationships. Revalidate changed diagrams without creating decorative o
 
 ## Preserve history
 
-1. Snapshot each changed accepted artifact as its existing immutable version.
-2. Create a new candidate version linked to its predecessor and review record.
-3. Keep prior accepted decisions and artifacts addressable.
-4. Record why each new version differs and who requested it.
-5. Mark an artifact `superseded` only after its replacement is accepted.
+1. Never edit an accepted artifact. Write the candidate as `v<n+1>` at the readable
+   path and move the accepted version to `superseded/<readable-path-without-ext>/v<n>.md`
+   in the same step.
+2. Open every candidate with `## Changed since v<n>` listing Added, Changed, and Removed
+   with the section each touches. Removed may not be empty when a requirement, check,
+   or PR disappeared.
+3. Link the candidate to its predecessor and review record in the index.
+4. Keep prior accepted decisions and artifacts addressable.
+5. Record why each new version differs and who requested it.
+6. Mark an artifact `superseded` only after its replacement is accepted; mark it
+   `invalidated` in the meantime.
+7. A replaced design gets a new PR ID and display name, never a new version of the old
+   ID.
 
-For `rename-only`, add old-to-new names to the alias map. Keep stable IDs where meaning is
-unchanged and preserve reverse traceability from the new label to prior evidence,
-requirements, packets, builds, and reviews.
-Change a readable filename only through the explicit realignment plan. Preserve its
-stable ID and record old/new path aliases so earlier references remain traceable.
+For `rename-only`, add old-to-new names to `aliases.md` before any artifact uses the new
+name. Keep stable IDs where meaning is unchanged and preserve reverse traceability from
+the new label to prior evidence, requirements, packets, builds, and reviews. Change a
+readable filename only through the explicit realignment plan and record old/new path
+aliases.
 
 ## Compute transitive impact
 
-Start from changed artifact IDs and traverse declared input, requirement, contract, and PR
-dependency edges. Produce one impact record per reachable artifact:
+Start from changed artifact IDs and traverse declared input, requirement, contract,
+glossary-row, and PR dependency edges. Produce one `invalidations.md` row per reachable
+artifact:
 
 - source change and classification
 - dependency path that makes the artifact reachable
@@ -88,9 +113,8 @@ Use the earliest materially impacted phase:
 - packet generation for affected PRs only
 - build and post-build review for affected implementation only
 
-Mark only impacted downstream versions `superseded` after replacement approval. Reuse
-unaffected accepted versions by exact artifact ID and version. Never silently adapt a
-packet, sequence, build, or review.
+A unit that has already been redesigned twice returns to the requirements checkpoint
+rather than receiving a third packet version.
 
 ## Existing implementation safety
 
@@ -108,21 +132,34 @@ Until approval, leave implementation untouched and set status `awaiting-human-re
 Present every destructive action as its own numbered approval item. Name the exact file,
 worktree, or branch and consequence; never combine it with another approval.
 
+## Refresh run state
+
+In the same step as the realignment record:
+
+- regenerate the Where things stand table in `run.md`, set `status` and
+  `current-phase`, and strike superseded decisions with their replacements;
+- add index rows for every candidate and mark reached rows `invalidated`;
+- update glossary rows and `aliases.md`;
+- rewrite the `Status:` line and the `Changed since` section of every published file
+  the change reaches;
+- run the consistency check and record its result.
+
 ## Output
 
 Write `realignments/<change-slug>.md` containing:
 
-- run and realignment IDs, reviewer, decision, comments, and timestamp
+- display name, plain-language purpose, `RA-<nnn>`, trigger, reviewer, decision,
+  comments, and timestamp
 - changed artifact IDs and before/candidate versions
-- change classifications and alias updates
+- change classifications, glossary rows affected, and alias updates
 - published pack, architecture draft, and durable-document impact
 - impacted diagrams, preserved diagrams, and validation needed
 - transitive impact records and unaffected accepted artifacts
 - minimal phases and affected PRs to rerun
 - existing-build proposals and approvals required
-- supersession plan, unresolved questions, and next approval checkpoint
-- display name, plain-language purpose, internal ID, old/new path aliases, named numbered
-  decisions and consequences, and a separate `Open questions` section
+- supersession plan, named numbered decisions and consequences, unresolved questions,
+  and next approval checkpoint
+- a separate `Open questions` section
 
 Update the artifact index, decision history, review records, and run status without
 overwriting prior entries. Return a bounded summary with the artifact path.

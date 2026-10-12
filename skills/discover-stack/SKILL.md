@@ -1,6 +1,6 @@
 ---
 name: discover-stack
-description: Discovers one frontend, backend, or infrastructure area of a repository and produces an evidence-backed change-surface report. Use during parallel Lore Flow stack discovery before requirements planning.
+description: Discovers one frontend, backend, or infrastructure area of a repository and produces an evidence-backed change-surface report, including what already exists so planning reuses it. Use during parallel Lore Flow stack discovery before requirements planning.
 ---
 
 # Discover Stack
@@ -13,7 +13,7 @@ read-only and evidence-first. Do not propose speculative architecture or edit co
 - bounded discovery packet
 - target repository path
 - area
-- accepted PRD review path
+- accepted PRD review path and feature glossary path
 - output path under the run root
 
 Read only the artifacts and repository regions needed to answer the packet questions.
@@ -33,6 +33,26 @@ Identify:
 - existing diagram formats, Mermaid conventions, durable homes, and validation commands
 - existing feature-doc convention, or default `docs/features/<feature-slug>/`
 - constraints, risks, unknowns, and assumptions requiring validation
+
+## What already exists
+
+The largest reversals in past runs came from designing something the repository or an
+installed package already provided. Before anything new is named, record:
+
+- **Existing capabilities**: every exported symbol of each library the frontier touches,
+  with a one-line meaning. Add each as an `existing` glossary row with its model,
+  functions, module, and wire name filled from the code.
+- **Installed protocols and SDKs**: for each package that touches the frontier, its
+  installed version and the events, schemas, tools, or middleware it already provides.
+  Name the exact file and line in the lockfile or package manifest.
+- **Integrations**: for every external system the PRD names, how the repository already
+  reaches it (client library, MCP server, HTTP, queue), the auth mode and token audience,
+  the configuration keys, and the closest existing call site.
+- **Provider constraints**: for every model or provider the PRD names, documented
+  limits that affect the frontier, such as tool-choice or thinking restrictions.
+
+A planner may not name a dependency, protocol, or capability that this section did not
+observe. A gap here is an `unknown` with a validation owner, not a guess.
 
 Every material statement must cite a repository-relative path with line range or symbol,
 a summarized command result, or an accepted artifact. Distinguish observed facts from
@@ -71,10 +91,16 @@ Write `discovery/<feature-slug>-<area>.md`:
 Status: complete | blocked
 Display name:
 Plain-language purpose:
-Internal ID:
+Internal ID: DISC-<area>
 
 ## Summary
 ## Evidence
+## What already exists
+### Existing capabilities
+### Installed protocols and SDKs
+### Integrations
+### Provider constraints
+## Glossary rows added
 ## Existing architecture and conventions
 ### Durable documentation convention
 - Architecture paths/indexes:
@@ -99,6 +125,7 @@ solution. Do not invent requirements.
 
 ## Return
 
-Return no more than ten bullets containing status, strongest findings, blocking unknowns,
-and the report path. The orchestrator builds `discovery-index.md` from these summaries;
-do not pass raw logs or repository dumps.
+Return no more than ten bullets containing status, strongest findings, existing
+capabilities that satisfy frontier items, blocking unknowns, glossary rows added, and
+the report path. The orchestrator builds `discovery-index.md` from these summaries; do
+not pass raw logs or repository dumps.

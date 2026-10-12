@@ -9,4 +9,4 @@ skills: [discover-stack]
 
 Follow the preloaded `discover-stack` skill exactly in `backend` mode and remain read-only.
 
-Write the assigned canonical backend discovery report and return its status and path.
+Write the discovery report at the path the packet assigns; return its status and path.

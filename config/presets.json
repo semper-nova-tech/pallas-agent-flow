@@ -7,128 +7,282 @@
       "description": "Budget Cursor routing using only included Cursor models (Composer and Grok Fast) for every role.",
       "harness": "cursor",
       "mode": "normal",
-      "approvalGates": {
+      "approvalCheckpoints": {
         "technical-requirements": true,
         "pr-sequence": true,
         "each-pr": true
       },
+      "publishedPack": "committed",
       "roles": {
         "orchestrator": {
           "label": "Flow Orchestrator",
-          "models": ["cursor-grok-4.5-high-fast", "composer-2.5-fast"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "composer-2.5-fast"
+          ],
           "effort": "high",
-          "output": "run.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "prd-reviewer": {
           "label": "PRD Reviewer",
-          "models": ["cursor-grok-4.5-high-fast", "composer-2.5-fast"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "composer-2.5-fast"
+          ],
           "effort": "high",
-          "output": "prd-review.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-frontend": {
           "label": "Frontend Discovery",
-          "models": ["composer-2.5-fast", "cursor-grok-4.5-high-fast"],
+          "models": [
+            "composer-2.5-fast",
+            "cursor-grok-4.5-high-fast"
+          ],
           "effort": "low",
-          "output": "discovery/frontend.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-backend": {
           "label": "Backend Discovery",
-          "models": ["composer-2.5-fast", "cursor-grok-4.5-high-fast"],
+          "models": [
+            "composer-2.5-fast",
+            "cursor-grok-4.5-high-fast"
+          ],
           "effort": "low",
-          "output": "discovery/backend.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-infra": {
           "label": "Infrastructure Discovery",
-          "models": ["composer-2.5-fast", "cursor-grok-4.5-high-fast"],
+          "models": [
+            "composer-2.5-fast",
+            "cursor-grok-4.5-high-fast"
+          ],
           "effort": "low",
-          "output": "discovery/infra.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "requirements-planner": {
           "label": "Requirements Planner",
-          "models": ["cursor-grok-4.5-high-fast", "composer-2.5-fast"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "composer-2.5-fast"
+          ],
           "effort": "medium",
-          "output": "requirements.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["prd-reviewer"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "prd-reviewer"
+            ]
+          }
         },
         "realign-run": {
           "label": "Run Realigner",
-          "models": ["cursor-grok-4.5-high-fast", "composer-2.5-fast"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "composer-2.5-fast"
+          ],
           "effort": "medium",
-          "output": "realignments/<realignment-id>.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "ponytail": {
           "label": "Ponytail Cross-checker",
-          "models": ["cursor-grok-4.5-high-fast", "composer-2.5-fast"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "composer-2.5-fast"
+          ],
           "effort": "medium",
-          "output": "ponytail-pre-build.md or reviews/<pr-id>-ponytail.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "pr-sequencer": {
           "label": "PR Sequencer",
-          "models": ["cursor-grok-4.5-high-fast", "composer-2.5-fast"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "composer-2.5-fast"
+          ],
           "effort": "medium",
-          "output": "pr-sequence.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-frontend": {
           "label": "Frontend Builder",
-          "models": ["composer-2.5-fast", "cursor-grok-4.5-high-fast"],
+          "models": [
+            "composer-2.5-fast",
+            "cursor-grok-4.5-high-fast"
+          ],
           "effort": "medium",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-backend": {
           "label": "Backend Builder",
-          "models": ["composer-2.5-fast", "cursor-grok-4.5-high-fast"],
+          "models": [
+            "composer-2.5-fast",
+            "cursor-grok-4.5-high-fast"
+          ],
           "effort": "medium",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-infra": {
           "label": "Infrastructure Builder",
-          "models": ["composer-2.5-fast", "cursor-grok-4.5-high-fast"],
+          "models": [
+            "composer-2.5-fast",
+            "cursor-grok-4.5-high-fast"
+          ],
           "effort": "medium",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "final-reporter": {
           "label": "Final Reporter",
-          "models": ["composer-2.5-fast", "cursor-grok-4.5-high-fast"],
+          "models": [
+            "composer-2.5-fast",
+            "cursor-grok-4.5-high-fast"
+          ],
           "effort": "low",
-          "output": "final-report.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         }
       }
     },
@@ -137,128 +291,290 @@
       "description": "Quality-first Cursor routing that promotes orchestration, planning, sequencing, building, and final synthesis.",
       "harness": "cursor",
       "mode": "heavy",
-      "approvalGates": {
+      "approvalCheckpoints": {
         "technical-requirements": true,
         "pr-sequence": true,
         "each-pr": true
       },
+      "publishedPack": "committed",
       "roles": {
         "orchestrator": {
           "label": "Flow Orchestrator",
-          "models": ["claude-opus-5-thinking-high", "gpt-5.6-sol-medium"],
+          "models": [
+            "claude-opus-5-thinking-high",
+            "gpt-5.6-sol-medium"
+          ],
           "effort": "max",
-          "output": "run.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["prd-reviewer"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "prd-reviewer"
+            ]
+          }
         },
         "prd-reviewer": {
           "label": "PRD Reviewer",
-          "models": ["claude-opus-5-thinking-high", "claude-sonnet-5-thinking-high"],
+          "models": [
+            "claude-opus-5-thinking-high",
+            "claude-sonnet-5-thinking-high"
+          ],
           "effort": "high",
-          "output": "prd-review.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-frontend": {
           "label": "Frontend Discovery",
-          "models": ["cursor-grok-4.5-high-fast", "gpt-5.6-terra-medium"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "gpt-5.6-terra-medium"
+          ],
           "effort": "medium",
-          "output": "discovery/frontend.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-backend": {
           "label": "Backend Discovery",
-          "models": ["cursor-grok-4.5-high-fast", "gpt-5.6-terra-medium"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "gpt-5.6-terra-medium"
+          ],
           "effort": "medium",
-          "output": "discovery/backend.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-infra": {
           "label": "Infrastructure Discovery",
-          "models": ["cursor-grok-4.5-high-fast", "gpt-5.6-terra-medium"],
+          "models": [
+            "cursor-grok-4.5-high-fast",
+            "gpt-5.6-terra-medium"
+          ],
           "effort": "medium",
-          "output": "discovery/infra.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "requirements-planner": {
           "label": "Requirements Planner",
-          "models": ["claude-sonnet-5-thinking-high", "gpt-5.6-sol-medium"],
+          "models": [
+            "claude-sonnet-5-thinking-high",
+            "gpt-5.6-sol-medium"
+          ],
           "effort": "high",
-          "output": "requirements.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["prd-reviewer", "ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "prd-reviewer",
+              "ponytail"
+            ]
+          }
         },
         "realign-run": {
           "label": "Run Realigner",
-          "models": ["claude-sonnet-5-thinking-high", "gpt-5.6-sol-medium"],
+          "models": [
+            "claude-sonnet-5-thinking-high",
+            "gpt-5.6-sol-medium"
+          ],
           "effort": "high",
-          "output": "realignments/<realignment-id>.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "ponytail": {
           "label": "Ponytail Cross-checker",
-          "models": ["claude-sonnet-5-thinking-high", "gpt-5.6-terra-medium"],
+          "models": [
+            "claude-sonnet-5-thinking-high",
+            "gpt-5.6-terra-medium"
+          ],
           "effort": "high",
-          "output": "ponytail-pre-build.md or reviews/<pr-id>-ponytail.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "pr-sequencer": {
           "label": "PR Sequencer",
-          "models": ["claude-sonnet-5-thinking-high", "gpt-5.6-sol-medium"],
+          "models": [
+            "claude-sonnet-5-thinking-high",
+            "gpt-5.6-sol-medium"
+          ],
           "effort": "high",
-          "output": "pr-sequence.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-frontend": {
           "label": "Frontend Builder",
-          "models": ["claude-sonnet-5-thinking-high", "gpt-5.6-terra-medium", "composer-2.5-fast"],
+          "models": [
+            "claude-sonnet-5-thinking-high",
+            "gpt-5.6-terra-medium",
+            "composer-2.5-fast"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-backend": {
           "label": "Backend Builder",
-          "models": ["claude-sonnet-5-thinking-high", "gpt-5.6-terra-medium", "composer-2.5-fast"],
+          "models": [
+            "claude-sonnet-5-thinking-high",
+            "gpt-5.6-terra-medium",
+            "composer-2.5-fast"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-infra": {
           "label": "Infrastructure Builder",
-          "models": ["claude-sonnet-5-thinking-high", "gpt-5.6-terra-medium", "composer-2.5-fast"],
+          "models": [
+            "claude-sonnet-5-thinking-high",
+            "gpt-5.6-terra-medium",
+            "composer-2.5-fast"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "final-reporter": {
           "label": "Final Reporter",
-          "models": ["claude-sonnet-5-thinking-high", "gpt-5.6-sol-medium"],
+          "models": [
+            "claude-sonnet-5-thinking-high",
+            "gpt-5.6-sol-medium"
+          ],
           "effort": "high",
-          "output": "final-report.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         }
       }
     },
@@ -267,128 +583,267 @@
       "description": "Opus-led technical specifications and recovery with parallel Cursor implementation and Ponytail review.",
       "harness": "cursor",
       "mode": "simple",
-      "approvalGates": {
+      "approvalCheckpoints": {
         "technical-requirements": true,
         "pr-sequence": false,
         "each-pr": false
       },
+      "publishedPack": "committed",
       "roles": {
         "orchestrator": {
           "label": "Opus Flow Orchestrator",
-          "models": ["claude-opus-5-5-medium"],
+          "models": [
+            "claude-opus-5-5-medium"
+          ],
           "effort": "max",
-          "output": "run.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "prd-reviewer": {
           "label": "Opus Requirements Reviewer",
-          "models": ["claude-opus-5-5-medium"],
+          "models": [
+            "claude-opus-5-5-medium"
+          ],
           "effort": "high",
-          "output": "prd-review.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-frontend": {
           "label": "Cursor Frontend Discovery",
-          "models": ["cursor-grok-4.6-high-fast"],
+          "models": [
+            "cursor-grok-4.6-high-fast"
+          ],
           "effort": "medium",
-          "output": "discovery/frontend.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-backend": {
           "label": "Cursor Backend Discovery",
-          "models": ["cursor-grok-4.6-high-fast"],
+          "models": [
+            "cursor-grok-4.6-high-fast"
+          ],
           "effort": "medium",
-          "output": "discovery/backend.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-infra": {
           "label": "Cursor Infrastructure Discovery",
-          "models": ["cursor-grok-4.6-high-fast"],
+          "models": [
+            "cursor-grok-4.6-high-fast"
+          ],
           "effort": "medium",
-          "output": "discovery/infra.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "requirements-planner": {
           "label": "Opus Technical Spec Planner",
-          "models": ["claude-opus-5-5-medium"],
+          "models": [
+            "claude-opus-5-5-medium"
+          ],
           "effort": "high",
-          "output": "requirements.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "realign-run": {
           "label": "Opus Recovery Coordinator",
-          "models": ["claude-opus-5-5-medium"],
+          "models": [
+            "claude-opus-5-5-medium"
+          ],
           "effort": "high",
-          "output": "realignments/<realignment-id>.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "ponytail": {
           "label": "Opus Ponytail Reviewer",
-          "models": ["claude-opus-5-5-medium"],
+          "models": [
+            "claude-opus-5-5-medium"
+          ],
           "effort": "high",
-          "output": "ponytail-pre-build.md or reviews/<pr-id>-ponytail.md",
-          "concurrency": { "maxInstances": 4 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 4
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "pr-sequencer": {
           "label": "Opus Spec Dependency Planner",
-          "models": ["claude-opus-5-5-medium"],
+          "models": [
+            "claude-opus-5-5-medium"
+          ],
           "effort": "high",
-          "output": "pr-sequence.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "builder-frontend": {
           "label": "Cursor Frontend Builder",
-          "models": ["cursor-grok-4.6-high-fast"],
+          "models": [
+            "cursor-grok-4.6-high-fast"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 8 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 8
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-backend": {
           "label": "Cursor Backend Builder",
-          "models": ["cursor-grok-4.6-high-fast"],
+          "models": [
+            "cursor-grok-4.6-high-fast"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 8 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 8
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-infra": {
           "label": "Cursor Infrastructure Builder",
-          "models": ["cursor-grok-4.6-high-fast"],
+          "models": [
+            "cursor-grok-4.6-high-fast"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 4 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 4
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "final-reporter": {
           "label": "Opus Final Reporter",
-          "models": ["claude-opus-5-5-medium"],
+          "models": [
+            "claude-opus-5-5-medium"
+          ],
           "effort": "high",
-          "output": "final-report.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         }
       }
     },
@@ -397,128 +852,282 @@
       "description": "Balanced Claude routing with Opus coordination, Haiku discovery, and Sonnet planning and implementation.",
       "harness": "claude",
       "mode": "normal",
-      "approvalGates": {
+      "approvalCheckpoints": {
         "technical-requirements": true,
         "pr-sequence": true,
         "each-pr": true
       },
+      "publishedPack": "committed",
       "roles": {
         "orchestrator": {
           "label": "Flow Orchestrator",
-          "models": ["opus", "sonnet"],
+          "models": [
+            "opus",
+            "sonnet"
+          ],
           "effort": "high",
-          "output": "run.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "prd-reviewer": {
           "label": "PRD Reviewer",
-          "models": ["opus", "sonnet"],
+          "models": [
+            "opus",
+            "sonnet"
+          ],
           "effort": "high",
-          "output": "prd-review.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-frontend": {
           "label": "Frontend Discovery",
-          "models": ["haiku", "sonnet"],
+          "models": [
+            "haiku",
+            "sonnet"
+          ],
           "effort": "low",
-          "output": "discovery/frontend.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-backend": {
           "label": "Backend Discovery",
-          "models": ["haiku", "sonnet"],
+          "models": [
+            "haiku",
+            "sonnet"
+          ],
           "effort": "low",
-          "output": "discovery/backend.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-infra": {
           "label": "Infrastructure Discovery",
-          "models": ["haiku", "sonnet"],
+          "models": [
+            "haiku",
+            "sonnet"
+          ],
           "effort": "low",
-          "output": "discovery/infra.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "requirements-planner": {
           "label": "Requirements Planner",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "medium",
-          "output": "requirements.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["prd-reviewer"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "prd-reviewer"
+            ]
+          }
         },
         "realign-run": {
           "label": "Run Realigner",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "medium",
-          "output": "realignments/<realignment-id>.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "ponytail": {
           "label": "Ponytail Cross-checker",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "medium",
-          "output": "ponytail-pre-build.md or reviews/<pr-id>-ponytail.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "pr-sequencer": {
           "label": "PR Sequencer",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "medium",
-          "output": "pr-sequence.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-frontend": {
           "label": "Frontend Builder",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "medium",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-backend": {
           "label": "Backend Builder",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "medium",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-infra": {
           "label": "Infrastructure Builder",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "medium",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 2, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "final-reporter": {
           "label": "Final Reporter",
-          "models": ["haiku", "sonnet"],
+          "models": [
+            "haiku",
+            "sonnet"
+          ],
           "effort": "low",
-          "output": "final-report.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         }
       }
     },
@@ -527,128 +1136,287 @@
       "description": "Quality-first Claude routing that promotes critical reasoning to Opus and implementation to high-effort Sonnet.",
       "harness": "claude",
       "mode": "heavy",
-      "approvalGates": {
+      "approvalCheckpoints": {
         "technical-requirements": true,
         "pr-sequence": true,
         "each-pr": true
       },
+      "publishedPack": "committed",
       "roles": {
         "orchestrator": {
           "label": "Flow Orchestrator",
-          "models": ["opus", "sonnet"],
+          "models": [
+            "opus",
+            "sonnet"
+          ],
           "effort": "max",
-          "output": "run.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["prd-reviewer"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "prd-reviewer"
+            ]
+          }
         },
         "prd-reviewer": {
           "label": "PRD Reviewer",
-          "models": ["opus", "sonnet"],
+          "models": [
+            "opus",
+            "sonnet"
+          ],
           "effort": "max",
-          "output": "prd-review.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-frontend": {
           "label": "Frontend Discovery",
-          "models": ["sonnet", "haiku"],
+          "models": [
+            "sonnet",
+            "haiku"
+          ],
           "effort": "medium",
-          "output": "discovery/frontend.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-backend": {
           "label": "Backend Discovery",
-          "models": ["sonnet", "haiku"],
+          "models": [
+            "sonnet",
+            "haiku"
+          ],
           "effort": "medium",
-          "output": "discovery/backend.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "discovery-infra": {
           "label": "Infrastructure Discovery",
-          "models": ["sonnet", "haiku"],
+          "models": [
+            "sonnet",
+            "haiku"
+          ],
           "effort": "medium",
-          "output": "discovery/infra.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 2, "backoff": "linear" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 2,
+            "backoff": "linear"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "requirements-planner": {
           "label": "Requirements Planner",
-          "models": ["opus", "sonnet"],
+          "models": [
+            "opus",
+            "sonnet"
+          ],
           "effort": "high",
-          "output": "requirements.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["prd-reviewer", "ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "prd-reviewer",
+              "ponytail"
+            ]
+          }
         },
         "realign-run": {
           "label": "Run Realigner",
-          "models": ["opus", "sonnet"],
+          "models": [
+            "opus",
+            "sonnet"
+          ],
           "effort": "high",
-          "output": "realignments/<realignment-id>.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "ponytail": {
           "label": "Ponytail Cross-checker",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "high",
-          "output": "ponytail-pre-build.md or reviews/<pr-id>-ponytail.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": false,
+            "maxCycles": 0,
+            "reviewers": []
+          }
         },
         "pr-sequencer": {
           "label": "PR Sequencer",
-          "models": ["opus", "sonnet"],
+          "models": [
+            "opus",
+            "sonnet"
+          ],
           "effort": "high",
-          "output": "pr-sequence.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-frontend": {
           "label": "Frontend Builder",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-backend": {
           "label": "Backend Builder",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 3 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 3
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "builder-infra": {
           "label": "Infrastructure Builder",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "high",
-          "output": "builds/<pr-id>.md",
-          "concurrency": { "maxInstances": 2 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 2
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 2,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         },
         "final-reporter": {
           "label": "Final Reporter",
-          "models": ["sonnet", "opus"],
+          "models": [
+            "sonnet",
+            "opus"
+          ],
           "effort": "high",
-          "output": "final-report.md",
-          "concurrency": { "maxInstances": 1 },
-          "retry": { "maxAttempts": 3, "backoff": "exponential" },
-          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+          "concurrency": {
+            "maxInstances": 1
+          },
+          "retry": {
+            "maxAttempts": 3,
+            "backoff": "exponential"
+          },
+          "reviewLoop": {
+            "enabled": true,
+            "maxCycles": 1,
+            "reviewers": [
+              "ponytail"
+            ]
+          }
         }
       }
     }

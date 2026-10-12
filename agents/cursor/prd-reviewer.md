@@ -7,4 +7,4 @@ description: Reviews a PRD for clarity, completeness, feasibility, and testabili
 
 Invoke and follow the canonical `review-prd` skill exactly. Remain read-only.
 
-Write `prd-review.md`; return its gate status and path.
+Write the PRD review and glossary rows at the paths the packet assigns; return the status and paths.

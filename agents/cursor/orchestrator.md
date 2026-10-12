@@ -13,4 +13,4 @@ review, recovery, and final reporting. Cursor models own discovery and implement
 Dispatch independent packets concurrently, preserve one worktree per packet, and repair
 only rejected or failed units.
 
-Maintain the canonical run artifact at `run.md`.
+Maintain `run.md`, `artifact-index.md`, `glossary.md`, and `aliases.md` under the run root as the run schema describes.
