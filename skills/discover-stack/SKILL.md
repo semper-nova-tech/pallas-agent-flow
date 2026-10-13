@@ -1,6 +1,6 @@
 ---
 name: discover-stack
-description: Discovers one frontend, backend, or infrastructure area of a repository and produces an evidence-backed change-surface report, including what already exists so planning reuses it. Use during parallel Lore Flow stack discovery before requirements planning.
+description: Discovers one frontend, backend, or infrastructure area of a repository and produces an evidence-backed change-surface report, including what already exists so planning reuses it. Use during parallel Pallas Agent Flow stack discovery before requirements planning.
 ---
 
 # Discover Stack

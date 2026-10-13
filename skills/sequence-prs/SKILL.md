@@ -1,6 +1,6 @@
 ---
 name: sequence-prs
-description: Splits human-approved Lore Flow requirements into dependency-aware frontend, backend, and infrastructure pull requests with bounded build packets, guidance manifests, and owned glossary rows. Use after pre-build Ponytail and human requirements approval.
+description: Splits human-approved Pallas Agent Flow requirements into dependency-aware frontend, backend, and infrastructure pull requests with bounded build packets, guidance manifests, and owned glossary rows. Use after pre-build Ponytail and human requirements approval.
 ---
 
 # Sequence PRs

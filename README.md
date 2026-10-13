@@ -1,6 +1,6 @@
-# Lore Flow
+# Pallas Agent Flow
 
-Lore Flow is a portable, skills-only workflow plugin for turning a product
+Pallas Agent Flow is a portable, skills-only workflow plugin for turning a product
 requirement into a sequenced set of implementation branches and reviews. It
 does not ship a runtime, service, or project template. The workflow lives in
 one canonical root `skills/` directory so Cursor and Claude Code execute the
@@ -13,7 +13,7 @@ allowing each harness to use its native delegation and review features.
 
 ## Presets
 
-Lore Flow offers three operating presets:
+Pallas Agent Flow offers three operating presets:
 
 - **normal** favors short plans, a small number of agents, and focused reviews;
   use it for routine changes with known boundaries.
@@ -33,13 +33,13 @@ preset values; the run schema owns them.
 
 ## Vocabulary
 
-Lore Flow uses one name per concept. [docs/glossary.md](docs/glossary.md) defines
+Pallas Agent Flow uses one name per concept. [docs/glossary.md](docs/glossary.md) defines
 every term, the reserved ID prefix for each record type, and the allowed status words.
 Skills, agents, and run artifacts use those names and no synonyms.
 
 ## Product spec mode
 
-Lore Flow also provides a separate `product-spec` mode for turning an idea
+Pallas Agent Flow also provides a separate `product-spec` mode for turning an idea
 or product change into an approved PRD before implementation planning. It is a
 human-in-the-loop interview and review loop, not a build preset:
 
@@ -52,7 +52,7 @@ The first round settles whether the PRD describes user-visible components, user
 journeys, or parity cases, and confirms five one-line stories in that shape. Every
 draft opens with what changed, carries stable `Q-` and `AC-` IDs, and lists its terms.
 
-Invoke `/product-spec` (or ask the active harness to run Lore Flow's
+Invoke `/product-spec` (or ask the active harness to run Pallas Agent Flow's
 product-spec mode) against a target repository. The mode reads and, when
 missing, bootstraps this durable context:
 
@@ -74,7 +74,7 @@ mode never launches builders automatically.
 
 ## Compatibility
 
-Lore Flow can operate against any repository opened by a current Cursor or
+Pallas Agent Flow can operate against any repository opened by a current Cursor or
 Claude Code installation, subject to these requirements:
 
 - The target must be a Git repository because builders use branches and worktrees.
@@ -89,7 +89,7 @@ the harness's normal Git hosting authentication.
 
 ## Install
 
-Clone Lore Flow once, outside any target repository. Cursor and Claude Code both
+Clone Pallas Agent Flow once, outside any target repository. Cursor and Claude Code both
 read that same checkout. Cursor loads `.cursor-plugin/plugin.json`. Claude Code
 loads `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`. Keep a
 single `skills/` tree. Copying skills into a harness-specific folder, or into a
@@ -97,24 +97,24 @@ target repo, forks the workflow.
 
 ```bash
 mkdir -p "$HOME/.cursor/plugins/local"
-git clone git@github.com:jmarlett93/lore-flow.git "$HOME/.cursor/plugins/local/lore-flow"
-ln -sfn "$HOME/.cursor/plugins/local/lore-flow" "$HOME/tools/lore-flow"
-export LORE_FLOW_HOME="$HOME/.cursor/plugins/local/lore-flow"
+git clone git@github.com:jmarlett93/pallas-agent-flow.git "$HOME/.cursor/plugins/local/pallas-agent-flow"
+ln -sfn "$HOME/.cursor/plugins/local/pallas-agent-flow" "$HOME/tools/pallas-agent-flow"
+export PALLAS_AGENT_FLOW_HOME="$HOME/.cursor/plugins/local/pallas-agent-flow"
 ```
 
-The directory at `~/.cursor/plugins/local/lore-flow` has to be the Git checkout
+The directory at `~/.cursor/plugins/local/pallas-agent-flow` has to be the Git checkout
 itself. Cursor loads a local plugin only when that path is a real directory, or
 a symlink whose target stays inside `~/.cursor/plugins/local`. A symlink from
-`plugins/local/lore-flow` out to `~/tools/lore-flow` or `~/Projects/lore-flow`
+`plugins/local/pallas-agent-flow` out to `~/tools/pallas-agent-flow` or `~/Projects/pallas-agent-flow`
 is ignored, and the skills never appear. Point the convenience paths at the
 checkout, as the `ln -sfn` above does.
 
 On Windows, clone straight into
-`%USERPROFILE%\.cursor\plugins\local\lore-flow`. A junction that leaves that
+`%USERPROFILE%\.cursor\plugins\local\pallas-agent-flow`. A junction that leaves that
 folder has the same problem as an outside symlink.
 
 Reload the harness after the checkout is in place. Desktop: **Developer: Reload
-Window**, then confirm Customize lists the `lore-flow` plugin, its skills, and
+Window**, then confirm Customize lists the `pallas-agent-flow` plugin, its skills, and
 its agents. CLI: quit the current `agent` process and start a new one. A session
 that is already running keeps the skill list it started with.
 
@@ -122,7 +122,7 @@ that is already running keeps the skill list it started with.
 
 Herdr users can select `herdr` as the execution adapter. The adapter creates one
 workspace for the run, then launches each Cursor worker in a real child pane and
-waits for it to settle, while Lore Flow retains ownership of packets, worktrees,
+waits for it to settle, while Pallas Agent Flow retains ownership of packets, worktrees,
 reviews, and recovery. See [adapters/herdr/README.md](adapters/herdr/README.md).
 
 ### Cursor CLI, one session
@@ -131,7 +131,7 @@ To try a checkout without a persistent install:
 
 ```bash
 cd /path/to/target-repository
-agent --workspace "$PWD" --plugin-dir "$LORE_FLOW_HOME"
+agent --workspace "$PWD" --plugin-dir "$PALLAS_AGENT_FLOW_HOME"
 ```
 
 `--plugin-dir` applies to that process only. `~/.cursor/cli-config.json` and a
@@ -144,10 +144,10 @@ Register this repository as a user marketplace, then install the plugin. Adding
 the marketplace indexes it. The skills stay unloaded until install.
 
 ```bash
-agent plugin marketplace add git@github.com:jmarlett93/lore-flow.git
+agent plugin marketplace add git@github.com:jmarlett93/pallas-agent-flow.git
 ```
 
-In a new interactive session, open `/plugins` and install `lore-flow` at **user**
+In a new interactive session, open `/plugins` and install `pallas-agent-flow` at **user**
 scope so every workspace gets it. Project scope writes the install into that
 repository only.
 
@@ -158,9 +158,9 @@ stored on the Cursor account. A direct Git install looks like this:
 ```json
 {
   "plugins": {
-    "lore-flow": {
+    "pallas-agent-flow": {
       "enabled": true,
-      "gitUrl": "https://github.com/jmarlett93/lore-flow.git"
+      "gitUrl": "https://github.com/jmarlett93/pallas-agent-flow.git"
     }
   }
 }
@@ -172,7 +172,7 @@ is `marketplace/plugin`:
 ```json
 {
   "plugins": {
-    "lore-flow/lore-flow": {
+    "pallas-agent-flow/pallas-agent-flow": {
       "enabled": true
     }
   }
@@ -184,29 +184,29 @@ the block there does not import the skills.
 
 ### Claude Code
 
-Load Lore Flow for one session from the target repository:
+Load Pallas Agent Flow for one session from the target repository:
 
 ```bash
 cd /path/to/target-repository
-claude --plugin-dir "$LORE_FLOW_HOME"
+claude --plugin-dir "$PALLAS_AGENT_FLOW_HOME"
 ```
 
 Confirm it appears in `/plugin`. Plugin skills are namespaced, so the orchestration skill
-is available as `/lore-flow:orchestrate-feature`.
+is available as `/pallas-agent-flow:orchestrate-feature`.
 
 For persistent installation, add this repository as a Claude Code marketplace and install
 the plugin. Project scope records the installation in the target repository:
 
 ```bash
-claude plugin marketplace add jmarlett93/lore-flow
-claude plugin install lore-flow@lore-flow --scope project
+claude plugin marketplace add jmarlett93/pallas-agent-flow
+claude plugin install pallas-agent-flow@pallas-agent-flow --scope project
 ```
 
 User scope (`--scope user`) loads it in every Claude Code project. After a
 release is published, update an existing installation with:
 
 ```bash
-claude plugin update lore-flow@lore-flow
+claude plugin update pallas-agent-flow@pallas-agent-flow
 ```
 
 For local development, continue to use `--plugin-dir`; it loads the checked-out files
@@ -216,18 +216,18 @@ directly without marketplace caching.
 
 Update a cloned installation with the repository's normal Git workflow, then
 reload the harness. Remove a Cursor local installation by deleting the checkout
-at `~/.cursor/plugins/local/lore-flow` (and any convenience symlink that points
+at `~/.cursor/plugins/local/pallas-agent-flow` (and any convenience symlink that points
 at it). Session-only `--plugin-dir` loading leaves no installation in the target
 repository. Remove an account marketplace with
-`agent plugin marketplace remove lore-flow`, then uninstall the plugin from
+`agent plugin marketplace remove pallas-agent-flow`, then uninstall the plugin from
 `/plugins`.
 
 ## How agents import these skills
 
-Future agents should load Lore Flow as a plugin. The target repository's
+Future agents should load Pallas Agent Flow as a plugin. The target repository's
 `.agents/skills/`, `.cursor/skills/`, and `~/.cursor/skills/` are a different
 catalog (coding standards and personal skills). Copying `skills/*/SKILL.md`
-into those folders does not install Lore Flow, and it will drift from this
+into those folders does not install Pallas Agent Flow, and it will drift from this
 checkout.
 
 Check the session's skill list before inventing an install. These ten skills
@@ -237,7 +237,7 @@ ship in `skills/`:
 | --- | --- |
 | `product-spec` | Interview and write an approved PRD |
 | `review-prd` | Define the current-to-requested behavior frontier |
-| `orchestrate-feature` | Run or resume a full Lore Flow delivery |
+| `orchestrate-feature` | Run or resume a full Pallas Agent Flow delivery |
 | `discover-stack` | Evidence-backed stack discovery for one area |
 | `plan-requirements` | Turn an accepted PRD into testable technical requirements |
 | `ponytail` | Adversarial scope and requirement review |
@@ -246,15 +246,15 @@ ship in `skills/`:
 | `realign-run` | Apply an explicit human review and recompute impact |
 | `final-report` | Evidence-backed completion report |
 
-Cursor shows them as `/product-spec` or `/lore-flow:product-spec`, depending on
+Cursor shows them as `/product-spec` or `/pallas-agent-flow:product-spec`, depending on
 whether the plugin namespace is prefixed. Claude Code always namespaces them:
-`/lore-flow:orchestrate-feature`. Custom agents live in `agents/cursor/` and
+`/pallas-agent-flow:orchestrate-feature`. Custom agents live in `agents/cursor/` and
 `agents/claude/`; they call these skills and do not carry a second copy of the
 policy.
 
 Import order when the skills are missing:
 
-1. If `~/.cursor/plugins/local/lore-flow/.cursor-plugin/plugin.json` exists and
+1. If `~/.cursor/plugins/local/pallas-agent-flow/.cursor-plugin/plugin.json` exists and
    that path is a real directory, start a new agent session or reload the
    window. The running session will not gain the skills.
 2. If that path is a symlink to somewhere else, replace it with the checkout
@@ -267,14 +267,14 @@ Import order when the skills are missing:
 
 A session whose skills are only the target repo's `.agents/skills` plus
 `~/.cursor/skills` has not loaded this plugin. Read the skill from
-`$LORE_FLOW_HOME/skills/<name>/SKILL.md` only as a fallback while fixing the
+`$PALLAS_AGENT_FLOW_HOME/skills/<name>/SKILL.md` only as a fallback while fixing the
 install. The next session should show the slash command.
 
 ## Verify the installation
 
 Before the first build run:
 
-1. Confirm all Lore Flow skills and harness agents are visible.
+1. Confirm all Pallas Agent Flow skills and harness agents are visible.
 2. Confirm the selected key exists in `config/presets.json`.
 3. Confirm the configured model candidates are available to the account.
 4. Confirm the target repository is a clean, usable Git checkout.
@@ -282,7 +282,7 @@ Before the first build run:
 
 ## Invoke a run
 
-Invoke the Lore Flow orchestration skill with:
+Invoke the Pallas Agent Flow orchestration skill with:
 
 1. a PRD, issue, or concise change description;
 2. the target repository and base branch;
@@ -292,12 +292,12 @@ Invoke the Lore Flow orchestration skill with:
 
 For Cursor, invoke `/orchestrate-feature` or ask:
 
-> Run Lore Flow with `cursor.simple` for this PRD against `main`.
+> Run Pallas Agent Flow with `cursor.simple` for this PRD against `main`.
 
 For Claude Code, invoke:
 
 ```text
-/lore-flow:orchestrate-feature Run with claude.normal for this PRD against main.
+/pallas-agent-flow:orchestrate-feature Run with claude.normal for this PRD against main.
 ```
 
 The orchestrator decomposes the request, records dependencies, and dispatches
@@ -305,7 +305,7 @@ only work whose prerequisites are satisfied.
 
 ## Published review pack
 
-Reviewers should not open `.lore-flow/`. After planning, the workflow mints a
+Reviewers should not open `.pallas-agent-flow/`. After planning, the workflow mints a
 review pack, by default:
 
 ```text
@@ -321,7 +321,7 @@ docs/features/<feature-slug>/
 
 The preset's `publishedPack` mode decides whether the pack is committed, kept local
 and git-excluded, or not minted. Each PR note links to facets of the architecture
-overview. Keep `.lore-flow/` in the target repository `.gitignore`; copy
+overview. Keep `.pallas-agent-flow/` in the target repository `.gitignore`; copy
 [templates/gitignore](templates/gitignore) if needed.
 
 ## Naming contract
@@ -339,7 +339,7 @@ change. The technical spec keeps owning shapes.
 Each run writes recovery evidence under the target repository. Gitignore this tree:
 
 ```text
-.lore-flow/runs/<yyyy-mm-dd>-<ticket>-<feature-slug>/
+.pallas-agent-flow/runs/<yyyy-mm-dd>-<ticket>-<feature-slug>/
 ├── run.md                         # names, where things stand, decisions, blockers
 ├── artifact-index.md              # one table; the only source of version numbers
 ├── aliases.md                     # every rename, old name to new
@@ -401,7 +401,7 @@ Every run pauses at these approval checkpoints before builds:
    under `approvalCheckpoints`); set it to `false` in the preset to skip.
 
 At each pause, status is `awaiting-human-review`. The reviewer receives the published
-pack first, then exact versions and each artifact's `Changed since` section. Lore Flow
+pack first, then exact versions and each artifact's `Changed since` section. Pallas Agent Flow
 records the reviewer's identity, decision, timestamp, comments, and reviewed versions
 in one file per checkpoint, then resumes only on explicit approval. A decision is
 `approved`, `changes-requested`, or `rejected`; an approval whose comments change a
@@ -497,7 +497,7 @@ silently weaken a required review.
 
 ## Repository coding standards
 
-Lore Flow supplies workflow skills, not target-specific coding policy.
+Pallas Agent Flow supplies workflow skills, not target-specific coding policy.
 Target repositories should expose their coding standards as discoverable skills
 in the locations supported by each harness. A repository can keep standards in
 one canonical directory and link each skill into `.cursor/skills/` and

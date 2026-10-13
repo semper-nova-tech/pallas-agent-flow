@@ -1,6 +1,6 @@
 ---
 name: final-report
-description: Produces the concise, evidence-backed Lore Flow completion report across PR sequencing, requirement coverage, glossary reconciliation, builds, checks, reviews, risks, and artifacts. Use at every terminal state of a run, including parked, pivoted, and abandoned.
+description: Produces the concise, evidence-backed Pallas Agent Flow completion report across PR sequencing, requirement coverage, glossary reconciliation, builds, checks, reviews, risks, and artifacts. Use at every terminal state of a run, including parked, pivoted, and abandoned.
 ---
 
 # Final Report
@@ -74,7 +74,7 @@ Before writing:
 Write `reports/<feature-slug>-final.md`:
 
 ```markdown
-# Lore Flow Final Report
+# Pallas Agent Flow Final Report
 Display name:
 Plain-language purpose:
 Internal ID:

@@ -1,10 +1,14 @@
 {
-  "name": "lore-flow",
-  "displayName": "Lore Flow",
-  "version": "0.5.0",
+  "name": "pallas-agent-flow",
+  "displayName": "Pallas Agent Flow",
+  "version": "0.6.0",
   "description": "Preset-driven multi-agent delivery flow for Claude Code.",
   "license": "MIT",
-  "keywords": ["workflow", "multi-agent", "delivery"],
+  "keywords": [
+    "workflow",
+    "multi-agent",
+    "delivery"
+  ],
   "skills": "./skills/",
   "agents": [
     "./agents/claude/builder-backend.md",

@@ -1,5 +1,5 @@
 {
-  "name": "lore-flow",
+  "name": "pallas-agent-flow",
   "owner": {
     "name": "John Marlett",
     "url": "https://github.com/jmarlett93"
@@ -7,14 +7,14 @@
   "description": "Agent orchestration workflows for reviewed, dependency-aware feature delivery.",
   "plugins": [
     {
-      "name": "lore-flow",
+      "name": "pallas-agent-flow",
       "source": "./",
       "description": "Orchestrates PRD review, technical planning, human approvals, sequenced builds, and adversarial review.",
       "author": {
         "name": "John Marlett",
         "url": "https://github.com/jmarlett93"
       },
-      "repository": "https://github.com/jmarlett93/lore-flow",
+      "repository": "https://github.com/jmarlett93/pallas-agent-flow",
       "license": "MIT",
       "category": "development",
       "tags": [

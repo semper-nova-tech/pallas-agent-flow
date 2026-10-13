@@ -1,4 +1,4 @@
-# Lore Flow Run Schema
+# Pallas Agent Flow Run Schema
 
 Use human-readable Markdown. Apply [human-readable-output.md](human-readable-output.md)
 to every record and path. Names, ID prefixes, and status words come from the plugin
@@ -12,7 +12,7 @@ to every record and path. Names, ID prefixes, and status words come from the plu
   title. A behavior ticket gets a verb-first slug (`resolve-page-place`); a thing gets a
   noun slug (`sale-lease-comps`). The same slug names the published pack and every
   per-feature artifact.
-- The run root is `.lore-flow/runs/<run-id>/` in the target repository, recorded as an
+- The run root is `.pallas-agent-flow/runs/<run-id>/` in the target repository, recorded as an
   absolute path so workers in other worktrees can write to it.
 
 ## Run manifest

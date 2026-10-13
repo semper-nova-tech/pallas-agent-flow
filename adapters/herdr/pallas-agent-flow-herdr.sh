@@ -4,11 +4,11 @@ set -euo pipefail
 usage() {
   cat >&2 <<'EOF'
 Usage:
-  lore-flow-herdr.sh workspace --cwd DIR --label LABEL
-  lore-flow-herdr.sh worker --pane PANE_ID --name NAME --cwd DIR --model MODEL \
+  pallas-agent-flow-herdr.sh workspace --cwd DIR --label LABEL
+  pallas-agent-flow-herdr.sh worker --pane PANE_ID --name NAME --cwd DIR --model MODEL \
     --prompt-file FILE [--run-id ID] [--packet-id ID] [--timeout MS]
-  lore-flow-herdr.sh wait --name NAME [--timeout MS]
-  lore-flow-herdr.sh close --name NAME
+  pallas-agent-flow-herdr.sh wait --name NAME [--timeout MS]
+  pallas-agent-flow-herdr.sh close --name NAME
 EOF
   exit 2
 }

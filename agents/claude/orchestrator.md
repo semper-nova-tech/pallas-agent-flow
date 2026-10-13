@@ -1,6 +1,6 @@
 ---
 name: orchestrator
-description: Coordinates a Lore Flow run from intake through final reporting.
+description: Coordinates a Pallas Agent Flow run from intake through final reporting.
 tools: Agent, Read, Grep, Glob
 skills: [orchestrate-feature]
 ---

@@ -1,12 +1,12 @@
-# Lore Flow glossary
+# Pallas Agent Flow glossary
 
 One canonical name per concept. Skills, references, agents, fixtures, and run
 artifacts use these names and no synonyms.
 
 | Term | Meaning | Avoid |
 | --- | --- | --- |
-| Run | One execution of Lore Flow for one ticket or PRD, identified by a run-id | job, session, flow instance |
-| Run root | `.lore-flow/runs/<run-id>/` in the target repository; gitignored run machinery | run folder, run dir |
+| Run | One execution of Pallas Agent Flow for one ticket or PRD, identified by a run-id | job, session, flow instance |
+| Run root | `.pallas-agent-flow/runs/<run-id>/` in the target repository; gitignored run machinery | run folder, run dir |
 | Published pack | The committed review surface under `docs/features/<feature-slug>/` | review pack, docs pack, staging copy |
 | Ticket | The issue the run delivers, written as `<KEY>-<number>` | story, task |
 | Feature slug | Lowercase purpose slug derived from the ticket title; used in the run-id, published pack path, and artifact names | project slug, run slug |

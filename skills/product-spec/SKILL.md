@@ -6,7 +6,7 @@ description: Interviews a product owner and iterates an approved product require
 # Product Spec
 
 Create or revise a product requirements document without implementing software.
-This is the product-discovery mode for Lore Flow. It ends with an
+This is the product-discovery mode for Pallas Agent Flow. It ends with an
 explicitly approved PRD that can be passed to `orchestrate-feature`.
 
 ## Inputs
@@ -171,7 +171,7 @@ Create or update:
 
 - `product/prds/<feature-slug>.md` as the approved PRD, committed once per draft
 - `product/GLOSSARY.md` rows the PRD introduced
-- `.lore-flow/product-specs/<run-id>/` as ignored run evidence with only:
+- `.pallas-agent-flow/product-specs/<run-id>/` as ignored run evidence with only:
   - `interview-decisions.md`: decisions appended per round
   - `review-findings.md`: one entry per reviewed draft
   - `approval-record.md`: context root, status, approved version, approved commit or

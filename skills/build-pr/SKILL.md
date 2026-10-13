@@ -1,6 +1,6 @@
 ---
 name: build-pr
-description: Implements one sequenced Lore Flow pull request in an isolated git worktree, verifies its named requirements, and emits an evidence-backed build report that opens with before and after. Use for each approved PR build packet.
+description: Implements one sequenced Pallas Agent Flow pull request in an isolated git worktree, verifies its named requirements, and emits an evidence-backed build report that opens with before and after. Use for each approved PR build packet.
 ---
 
 # Build PR
@@ -27,7 +27,7 @@ Read the orchestrator diagram and published-docs policies before changing docume
 Apply the orchestrator human-readable output policy to build records and user narration.
 
 The run root is an absolute path outside this worktree. Write the build report there;
-the worktree does not contain `.lore-flow/`.
+the worktree does not contain `.pallas-agent-flow/`.
 
 ## Worktree safety
 

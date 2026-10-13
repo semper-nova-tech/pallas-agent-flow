@@ -1,9 +1,13 @@
 {
-  "name": "lore-flow",
-  "version": "0.5.0",
+  "name": "pallas-agent-flow",
+  "version": "0.6.0",
   "description": "Preset-driven multi-agent delivery flow for Cursor.",
   "license": "MIT",
-  "keywords": ["workflow", "multi-agent", "delivery"],
+  "keywords": [
+    "workflow",
+    "multi-agent",
+    "delivery"
+  ],
   "skills": "./skills/",
   "agents": "./agents/cursor/"
 }

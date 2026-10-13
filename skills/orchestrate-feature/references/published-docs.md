@@ -1,6 +1,6 @@
 # Published Review Surface
 
-Keep run machinery under `.lore-flow/`. Mint a small review pack outside that directory
+Keep run machinery under `.pallas-agent-flow/`. Mint a small review pack outside that directory
 so people never hunt through gitignored files.
 
 ## Two layers
@@ -8,7 +8,7 @@ so people never hunt through gitignored files.
 - **Published pack**: the human review surface. Keep it short, named, and current.
   Approval checkpoints present these files first.
 - **Run machinery**: discovery dumps, packets, reviews, versions, aliases, and recovery
-  evidence under `.lore-flow/runs/<run-id>/`. Gitignore that directory in the
+  evidence under `.pallas-agent-flow/runs/<run-id>/`. Gitignore that directory in the
   target repository. Do not ask reviewers to open it unless they need evidence.
 
 ## Published-pack mode

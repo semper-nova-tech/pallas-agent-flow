@@ -1,14 +1,14 @@
-# Lore Flow retrospective: five runs, 2026-09-30 to 2026-10-09
+# Pallas Agent Flow retrospective: five runs, 2026-09-30 to 2026-10-09
 
-Scope: every `.lore-flow` tree on this machine, all produced by plugin 0.4.0 (commit `82abc3a`), compared against plugin HEAD `6d1ac29`.
+Scope: every `.pallas-agent-flow` tree on this machine, all produced by plugin 0.4.0 (commit `82abc3a`), compared against plugin HEAD `6d1ac29`.
 
 | Run | Where | Outcome | What happened |
 | --- | --- | --- | --- |
-| AIA-159 Multi-specialist replies | `projects/web/.lore-flow/runs/aia-159-20261001` | 4 PRs merged | 17 recorded human reviews, 3 realignments, 5 requirement versions, 5 writer-spec versions. Findings mechanism shipped in PR-3 was replaced within days. |
-| AIA-160 Market context agent | `projects/web/.lore-flow/runs/2026-09-30-aia-160-market-context` | 2 of 3 PRs merged, run idle | PR 1 built, reviewed, pushed, then redesigned from scratch. Two live `01-*` packets. PR 3 never started. No final report. |
+| AIA-159 Multi-specialist replies | `projects/web/.pallas-agent-flow/runs/aia-159-20261001` | 4 PRs merged | 17 recorded human reviews, 3 realignments, 5 requirement versions, 5 writer-spec versions. Findings mechanism shipped in PR-3 was replaced within days. |
+| AIA-160 Market context agent | `projects/web/.pallas-agent-flow/runs/2026-09-30-aia-160-market-context` | 2 of 3 PRs merged, run idle | PR 1 built, reviewed, pushed, then redesigned from scratch. Two live `01-*` packets. PR 3 never started. No final report. |
 | AIA-220 Know which place | `~/.herdr/worktrees/web/aia-220-resolve-place-representations` | Blocked at spec approval | Reviewer answered the checkpoint with a new architecture constraint (go through the AIA-222 MCP). Nothing built. Index still says "accepted". |
 | AIA-222 Sale and lease comps | `~/.herdr/worktrees/web/aia-222-find-sale-comps` + 3 hand-made worktrees | Pivoted | Spec approved 3 times, Ponytail 5 rounds, PR1 built then closed unmerged, unplanned LangChain upgrade PR, hand-written PR4 reworked 4 times. PR2/PR3 never built. |
-| Research AI integration (product-spec) | `~/.herdr/worktrees/web/develop/.lore-flow/product-specs/2026-10-07-research-ai-integration` | Approved twice | v4 approved, stories rejected, v5 rewrote 60% of the body and silently dropped requirements, approved again. |
+| Research AI integration (product-spec) | `~/.herdr/worktrees/web/develop/.pallas-agent-flow/product-specs/2026-10-07-research-ai-integration` | Approved twice | v4 approved, stories rejected, v5 rewrote 60% of the body and silently dropped requirements, approved again. |
 
 ## Part 1. What went wrong, across runs
 
@@ -97,7 +97,7 @@ AIA-222 committed the pack then deleted it (`7b2af21bffa`) and the `.gitignore` 
 
 ### 10. Builders lack access and manifests (3 of 4)
 
-AIA-159: builders could not write `.lore-flow/`, reports pasted by the parent, `guidance/` empty across seven builds. AIA-222: planner verified the live schema via MCP; builder guessed operator names; orchestrator amended post-build. AIA-160: manifests hashed untracked local files and two builders claimed to have applied them.
+AIA-159: builders could not write `.pallas-agent-flow/`, reports pasted by the parent, `guidance/` empty across seven builds. AIA-222: planner verified the live schema via MCP; builder guessed operator names; orchestrator amended post-build. AIA-160: manifests hashed untracked local files and two builders claimed to have applied them.
 
 ### 11. Product-spec: the shape question came last
 

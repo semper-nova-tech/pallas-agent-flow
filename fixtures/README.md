@@ -1,4 +1,4 @@
-# Lore Flow fixtures
+# Pallas Agent Flow fixtures
 
 These compact scenarios exercise dependency planning and approval checkpoints and reviews. Each
 fixture contains a PRD-like input followed by the significant portion of the
@@ -17,5 +17,5 @@ relationships and states rather than array order unless `sequence` is present.
 | `architecture-documentation.md` | Run drafts and area-owned durable docs/ADRs |
 | `diagram-policy.md` | YAGNI diagram triggers, homes, PR DAG, and no-diagram case |
 | `human-readable-naming.md` | Readable names, paths, narration, and isolated approval |
-| `published-review-surface.md` | Committed spec, overview, sequence, and PR notes outside `.lore-flow/` |
+| `published-review-surface.md` | Committed spec, overview, sequence, and PR notes outside `.pallas-agent-flow/` |
 | `feature-glossary.md` | Glossary rows as the naming contract, meaning change as scope, export reconciliation |

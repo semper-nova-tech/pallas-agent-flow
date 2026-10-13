@@ -1,6 +1,6 @@
 ---
 name: ponytail
-description: Performs adversarial Lore Flow reviews: YAGNI, assumption, and naming challenge before building, and antagonistic requirement-to-diff review after building. Use at both mandatory review points.
+description: Performs adversarial Pallas Agent Flow reviews: YAGNI, assumption, and naming challenge before building, and antagonistic requirement-to-diff review after building. Use at both mandatory review points.
 ---
 
 # Ponytail

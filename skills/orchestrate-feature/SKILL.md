@@ -1,11 +1,11 @@
 ---
 name: orchestrate-feature
-description: Runs or resumes Lore Flow through technical specs, Ponytail review, parallel builds, targeted recovery, and reporting.
+description: Runs or resumes Pallas Agent Flow through technical specs, Ponytail review, parallel builds, targeted recovery, and reporting.
 ---
 
 # Orchestrate Feature
 
-Run Lore Flow without assuming a specific agent harness. Delegate by capability,
+Run Pallas Agent Flow without assuming a specific agent harness. Delegate by capability,
 persist artifacts in the target repository, and keep the parent context small.
 
 ## Inputs
@@ -22,7 +22,7 @@ user decisions already made, a published-pack mode override, and an execution ad
 (`native` or `herdr`).
 
 Resolve the named preset once with
-`jq --arg p NAME '.presets[$p]' config/presets.json` from the Lore Flow installation;
+`jq --arg p NAME '.presets[$p]' config/presets.json` from the Pallas Agent Flow installation;
 do not page through the file. Record its harness, approval checkpoints, published-pack
 mode, and role/model mappings in `run.md` and read them from there afterwards. Treat
 preset values as configuration, not workflow semantics. If the preset, harness adapter,
@@ -43,7 +43,7 @@ assignments in every packet.
 At intake, in this order:
 
 1. Derive the feature slug and the run-id `<yyyy-mm-dd>-<ticket>-<feature-slug>`.
-2. Create the run root `.lore-flow/runs/<run-id>/` and record its absolute path.
+2. Create the run root `.pallas-agent-flow/runs/<run-id>/` and record its absolute path.
 3. Write `run.md` with the Names block, an empty Where things stand table, and the
    resolved preset.
 4. Create `aliases.md` with the Names block as its first rows.
@@ -51,7 +51,7 @@ At intake, in this order:
    pack path, or at the run root when the published-pack mode is `none`.
 6. Write `artifact-index.md` with rows for the three files above.
 
-`.lore-flow/` is run machinery. If the target repository has no ignore rule for it,
+`.pallas-agent-flow/` is run machinery. If the target repository has no ignore rule for it,
 add the template at `templates/gitignore`. Human approval uses the published pack, not
 the run folder.
 
@@ -88,7 +88,7 @@ Persist the requirements, architecture overview, glossary, and versions in the r
 artifacts. Run the consistency check before requesting approval.
 
 If the `herdr` adapter is selected, create one Herdr workspace for the run using
-`adapters/herdr/lore-flow-herdr.sh workspace`. Record the returned workspace, tab, and
+`adapters/herdr/pallas-agent-flow-herdr.sh workspace`. Record the returned workspace, tab, and
 root pane IDs in the run artifact. Use the adapter's `worker` command for every
 delegated role, not only builders; see [adapters/herdr/README.md](../../adapters/herdr/README.md).
 

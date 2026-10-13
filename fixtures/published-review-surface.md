@@ -19,7 +19,7 @@ docs/features/hosted-order-events/
     └── 03-frontend-submit-order.md
 ```
 
-`.lore-flow/runs/<run-id>/` may contain discovery, packets, reviews, and versions.
+`.pallas-agent-flow/runs/<run-id>/` may contain discovery, packets, reviews, and versions.
 Those files are evidence, not the review surface.
 
 ## Expected architecture-overview facets
@@ -44,4 +44,4 @@ sequenceDiagram
 ## Explicit exclusion
 
 Do not publish packets, Ponytail transcripts, alias maps, or invalidation logs outside
-`.lore-flow/`.
+`.pallas-agent-flow/`.

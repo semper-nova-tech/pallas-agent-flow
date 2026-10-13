@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs lore-flow-herdr.sh against a fake herdr and asserts the calls it makes.
+# Runs pallas-agent-flow-herdr.sh against a fake herdr and asserts the calls it makes.
 set -euo pipefail
 
 here="$(cd "$(dirname "$0")" && pwd)"
@@ -25,11 +25,11 @@ echo 'do the thing' >"$tmp/packet.md"
 
 worker() {
   : >"$FAKE_LOG"
-  FAKE_STATUS="$1" bash "$here/lore-flow-herdr.sh" worker --pane w1:p1 --name w \
+  FAKE_STATUS="$1" bash "$here/pallas-agent-flow-herdr.sh" worker --pane w1:p1 --name w \
     --cwd /tmp --model m --prompt-file "$tmp/packet.md"
 }
 
-out="$(bash "$here/lore-flow-herdr.sh" workspace --cwd /tmp --label x)"
+out="$(bash "$here/pallas-agent-flow-herdr.sh" workspace --cwd /tmp --label x)"
 [[ "$(jq -r .pane_id <<<"$out")" == w1:p1 ]]
 
 out="$(worker done)"
@@ -41,7 +41,7 @@ grep -q -- 'agent prompt w do the thing --wait' "$FAKE_LOG"
 ! worker blocked >/dev/null
 
 : >"$FAKE_LOG"
-bash "$here/lore-flow-herdr.sh" close --name w
+bash "$here/pallas-agent-flow-herdr.sh" close --name w
 grep -q -- 'pane close w1:p3' "$FAKE_LOG"
 
 echo ok

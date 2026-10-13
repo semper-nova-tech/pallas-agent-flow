@@ -87,7 +87,7 @@ Published, committed review files:
 - `docs/features/<feature-slug>/sequence.md`
 - `docs/features/<feature-slug>/prs/<nn>-<domain>-<purpose-slug>.md`
 
-Run-folder evidence, gitignored with `.lore-flow/`:
+Run-folder evidence, gitignored with `.pallas-agent-flow/`:
 
 - `prd-reviews/<feature-slug>.md`
 - `discovery/<feature-slug>-<area>.md`
