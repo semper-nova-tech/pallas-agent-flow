@@ -33,7 +33,7 @@ adapters/herdr/pallas-agent-flow-herdr.sh worker \
   --pane ROOT_PANE_ID \
   --name build-api \
   --cwd /path/to/worktree \
-  --model cursor-grok-4.6-high-fast \
+  --model grok-4.7-high-fast \
   --prompt-file /path/to/build-packet.md \
   --run-id RUN_ID \
   --packet-id PACKET_ID \

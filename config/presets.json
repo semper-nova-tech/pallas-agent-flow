@@ -17,7 +17,7 @@
         "orchestrator": {
           "label": "Flow Orchestrator",
           "models": [
-            "cursor-grok-4.5-high-fast",
+            "grok-4.7-high-fast",
             "composer-2.5-fast"
           ],
           "effort": "high",
@@ -37,7 +37,7 @@
         "prd-reviewer": {
           "label": "PRD Reviewer",
           "models": [
-            "cursor-grok-4.5-high-fast",
+            "grok-4.7-high-fast",
             "composer-2.5-fast"
           ],
           "effort": "high",
@@ -58,7 +58,7 @@
           "label": "Frontend Discovery",
           "models": [
             "composer-2.5-fast",
-            "cursor-grok-4.5-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "low",
           "concurrency": {
@@ -78,7 +78,7 @@
           "label": "Backend Discovery",
           "models": [
             "composer-2.5-fast",
-            "cursor-grok-4.5-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "low",
           "concurrency": {
@@ -98,7 +98,7 @@
           "label": "Infrastructure Discovery",
           "models": [
             "composer-2.5-fast",
-            "cursor-grok-4.5-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "low",
           "concurrency": {
@@ -117,7 +117,7 @@
         "requirements-planner": {
           "label": "Requirements Planner",
           "models": [
-            "cursor-grok-4.5-high-fast",
+            "grok-4.7-high-fast",
             "composer-2.5-fast"
           ],
           "effort": "medium",
@@ -139,7 +139,7 @@
         "realign-run": {
           "label": "Run Realigner",
           "models": [
-            "cursor-grok-4.5-high-fast",
+            "grok-4.7-high-fast",
             "composer-2.5-fast"
           ],
           "effort": "medium",
@@ -159,7 +159,7 @@
         "ponytail": {
           "label": "Ponytail Cross-checker",
           "models": [
-            "cursor-grok-4.5-high-fast",
+            "grok-4.7-high-fast",
             "composer-2.5-fast"
           ],
           "effort": "medium",
@@ -179,7 +179,7 @@
         "pr-sequencer": {
           "label": "PR Sequencer",
           "models": [
-            "cursor-grok-4.5-high-fast",
+            "grok-4.7-high-fast",
             "composer-2.5-fast"
           ],
           "effort": "medium",
@@ -202,7 +202,7 @@
           "label": "Frontend Builder",
           "models": [
             "composer-2.5-fast",
-            "cursor-grok-4.5-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "medium",
           "concurrency": {
@@ -224,7 +224,7 @@
           "label": "Backend Builder",
           "models": [
             "composer-2.5-fast",
-            "cursor-grok-4.5-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "medium",
           "concurrency": {
@@ -246,7 +246,7 @@
           "label": "Infrastructure Builder",
           "models": [
             "composer-2.5-fast",
-            "cursor-grok-4.5-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "medium",
           "concurrency": {
@@ -268,7 +268,7 @@
           "label": "Final Reporter",
           "models": [
             "composer-2.5-fast",
-            "cursor-grok-4.5-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "low",
           "concurrency": {
@@ -301,7 +301,7 @@
         "orchestrator": {
           "label": "Flow Orchestrator",
           "models": [
-            "claude-opus-5-thinking-high",
+            "claude-opus-5-5-medium",
             "gpt-5.6-sol-medium"
           ],
           "effort": "max",
@@ -323,8 +323,8 @@
         "prd-reviewer": {
           "label": "PRD Reviewer",
           "models": [
-            "claude-opus-5-thinking-high",
-            "claude-sonnet-5-thinking-high"
+            "claude-opus-5-5-medium",
+            "claude-sonnet-5-5-high"
           ],
           "effort": "high",
           "concurrency": {
@@ -343,8 +343,8 @@
         "discovery-frontend": {
           "label": "Frontend Discovery",
           "models": [
-            "cursor-grok-4.5-high-fast",
-            "gpt-5.6-terra-medium"
+            "grok-4.7-high-fast",
+            "gpt-5.6-sol-medium"
           ],
           "effort": "medium",
           "concurrency": {
@@ -363,8 +363,8 @@
         "discovery-backend": {
           "label": "Backend Discovery",
           "models": [
-            "cursor-grok-4.5-high-fast",
-            "gpt-5.6-terra-medium"
+            "grok-4.7-high-fast",
+            "gpt-5.6-sol-medium"
           ],
           "effort": "medium",
           "concurrency": {
@@ -383,8 +383,8 @@
         "discovery-infra": {
           "label": "Infrastructure Discovery",
           "models": [
-            "cursor-grok-4.5-high-fast",
-            "gpt-5.6-terra-medium"
+            "grok-4.7-high-fast",
+            "gpt-5.6-sol-medium"
           ],
           "effort": "medium",
           "concurrency": {
@@ -403,7 +403,7 @@
         "requirements-planner": {
           "label": "Requirements Planner",
           "models": [
-            "claude-sonnet-5-thinking-high",
+            "claude-sonnet-5-5-high",
             "gpt-5.6-sol-medium"
           ],
           "effort": "high",
@@ -426,7 +426,7 @@
         "realign-run": {
           "label": "Run Realigner",
           "models": [
-            "claude-sonnet-5-thinking-high",
+            "claude-sonnet-5-5-high",
             "gpt-5.6-sol-medium"
           ],
           "effort": "high",
@@ -446,8 +446,8 @@
         "ponytail": {
           "label": "Ponytail Cross-checker",
           "models": [
-            "claude-sonnet-5-thinking-high",
-            "gpt-5.6-terra-medium"
+            "claude-sonnet-5-5-high",
+            "gpt-5.6-sol-medium"
           ],
           "effort": "high",
           "concurrency": {
@@ -466,7 +466,7 @@
         "pr-sequencer": {
           "label": "PR Sequencer",
           "models": [
-            "claude-sonnet-5-thinking-high",
+            "claude-sonnet-5-5-high",
             "gpt-5.6-sol-medium"
           ],
           "effort": "high",
@@ -488,8 +488,8 @@
         "builder-frontend": {
           "label": "Frontend Builder",
           "models": [
-            "claude-sonnet-5-thinking-high",
-            "gpt-5.6-terra-medium",
+            "claude-sonnet-5-5-high",
+            "gpt-5.6-sol-medium",
             "composer-2.5-fast"
           ],
           "effort": "high",
@@ -511,8 +511,8 @@
         "builder-backend": {
           "label": "Backend Builder",
           "models": [
-            "claude-sonnet-5-thinking-high",
-            "gpt-5.6-terra-medium",
+            "claude-sonnet-5-5-high",
+            "gpt-5.6-sol-medium",
             "composer-2.5-fast"
           ],
           "effort": "high",
@@ -534,8 +534,8 @@
         "builder-infra": {
           "label": "Infrastructure Builder",
           "models": [
-            "claude-sonnet-5-thinking-high",
-            "gpt-5.6-terra-medium",
+            "claude-sonnet-5-5-high",
+            "gpt-5.6-sol-medium",
             "composer-2.5-fast"
           ],
           "effort": "high",
@@ -557,7 +557,7 @@
         "final-reporter": {
           "label": "Final Reporter",
           "models": [
-            "claude-sonnet-5-thinking-high",
+            "claude-sonnet-5-5-high",
             "gpt-5.6-sol-medium"
           ],
           "effort": "high",
@@ -631,7 +631,7 @@
         "discovery-frontend": {
           "label": "Cursor Frontend Discovery",
           "models": [
-            "cursor-grok-4.6-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "medium",
           "concurrency": {
@@ -650,7 +650,7 @@
         "discovery-backend": {
           "label": "Cursor Backend Discovery",
           "models": [
-            "cursor-grok-4.6-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "medium",
           "concurrency": {
@@ -669,7 +669,7 @@
         "discovery-infra": {
           "label": "Cursor Infrastructure Discovery",
           "models": [
-            "cursor-grok-4.6-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "medium",
           "concurrency": {
@@ -766,7 +766,7 @@
         "builder-frontend": {
           "label": "Cursor Frontend Builder",
           "models": [
-            "cursor-grok-4.6-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "high",
           "concurrency": {
@@ -787,7 +787,7 @@
         "builder-backend": {
           "label": "Cursor Backend Builder",
           "models": [
-            "cursor-grok-4.6-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "high",
           "concurrency": {
@@ -808,7 +808,7 @@
         "builder-infra": {
           "label": "Cursor Infrastructure Builder",
           "models": [
-            "cursor-grok-4.6-high-fast"
+            "grok-4.7-high-fast"
           ],
           "effort": "high",
           "concurrency": {
