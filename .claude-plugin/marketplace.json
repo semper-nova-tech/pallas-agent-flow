@@ -24,6 +24,25 @@
         "code-review"
       ],
       "version": "0.6.1"
+    },
+    {
+      "name": "pallas-quick",
+      "source": "./plugins/pallas-quick",
+      "description": "Lightweight one-PR mode: Sonnet builds, Haiku searches and audits, Opus signs off.",
+      "author": {
+        "name": "John Marlett",
+        "url": "https://github.com/jmarlett93"
+      },
+      "repository": "https://github.com/jmarlett93/pallas-agent-flow",
+      "license": "MIT",
+      "category": "development",
+      "tags": [
+        "workflow",
+        "multi-agent",
+        "lightweight",
+        "herdr"
+      ],
+      "version": "0.1.0"
     }
   ]
 }
