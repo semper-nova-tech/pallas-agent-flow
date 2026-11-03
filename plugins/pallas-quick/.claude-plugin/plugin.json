@@ -1,0 +1,23 @@
+{
+  "name": "pallas-quick",
+  "displayName": "Pallas Quick",
+  "version": "0.1.0",
+  "description": "Lightweight mode for one-PR changes: Sonnet builds, Haiku searches and audits, Opus signs off.",
+  "author": {
+    "name": "jmarlett93",
+    "url": "https://github.com/jmarlett93"
+  },
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "multi-agent",
+    "lightweight"
+  ],
+  "skills": "./skills/",
+  "agents": [
+    "./agents/map-repo.md",
+    "./agents/find-call-sites.md",
+    "./agents/audit-diff.md",
+    "./agents/sign-off.md"
+  ]
+}
