@@ -13,12 +13,16 @@ off.
 
 ## Use
 
+Install the `pallas-quick` plugin from this repo. Cursor reads
+`.cursor-plugin/marketplace.json`; Claude Code reads `.claude-plugin/marketplace.json`.
+
 ```bash
 claude --model sonnet --advisor opus
 ```
 
 Then run `/pallas-quick:quick-change <request>`. Without `--advisor`, the skill uses
-the `sign-off` agent for the Opus decisions.
+the `sign-off` agent for the Opus decisions. In Cursor, install the plugin and run
+the same slash command.
 
 ## Herdr
 
