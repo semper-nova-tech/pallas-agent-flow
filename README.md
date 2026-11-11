@@ -90,9 +90,11 @@ the harness's normal Git hosting authentication.
 ## Install
 
 Clone Pallas Agent Flow once, outside any target repository. Cursor and Claude Code both
-read that same checkout. Cursor loads `.cursor-plugin/plugin.json`. Claude Code
-loads `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`. Keep a
-single `skills/` tree. Copying skills into a harness-specific folder, or into a
+read that same checkout. Each harness reads its marketplace manifest and the
+plugin it points at: Cursor uses `.cursor-plugin/marketplace.json`, Claude Code
+uses `.claude-plugin/marketplace.json`. Both list `pallas-agent-flow` at the
+repo root and `pallas-quick` at `plugins/pallas-quick`. Keep a single `skills/`
+tree per plugin. Copying skills into a harness-specific folder, or into a
 target repo, forks the workflow.
 
 ```bash
@@ -147,9 +149,10 @@ the marketplace indexes it. The skills stay unloaded until install.
 agent plugin marketplace add git@github.com:jmarlett93/pallas-agent-flow.git
 ```
 
-In a new interactive session, open `/plugins` and install `pallas-agent-flow` at **user**
-scope so every workspace gets it. Project scope writes the install into that
-repository only.
+In a new interactive session, open `/plugins` and install `pallas-agent-flow` and
+`pallas-quick` at **user** scope so every workspace gets them. Project scope writes
+the install into that repository only. `pallas-quick` is the one-PR plugin; its
+skill is `/pallas-quick:quick-change`.
 
 The CLI reads plugin installs from the workspace file
 `<repo>/.cursor/settings.json` (the working directory), alongside user installs

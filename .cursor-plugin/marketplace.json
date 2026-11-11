@@ -1,0 +1,47 @@
+{
+  "name": "pallas-agent-flow",
+  "owner": {
+    "name": "John Marlett"
+  },
+  "metadata": {
+    "description": "Agent orchestration workflows for reviewed, dependency-aware feature delivery."
+  },
+  "plugins": [
+    {
+      "name": "pallas-agent-flow",
+      "source": "./",
+      "description": "Orchestrates PRD review, technical planning, human approvals, sequenced builds, and adversarial review.",
+      "author": {
+        "name": "John Marlett"
+      },
+      "repository": "https://github.com/jmarlett93/pallas-agent-flow",
+      "license": "MIT",
+      "category": "development",
+      "tags": [
+        "workflow",
+        "multi-agent",
+        "planning",
+        "code-review"
+      ],
+      "version": "0.6.1"
+    },
+    {
+      "name": "pallas-quick",
+      "source": "./plugins/pallas-quick",
+      "description": "Lightweight one-PR mode: Sonnet builds, Haiku searches and audits, Opus signs off.",
+      "author": {
+        "name": "John Marlett"
+      },
+      "repository": "https://github.com/jmarlett93/pallas-agent-flow",
+      "license": "MIT",
+      "category": "development",
+      "tags": [
+        "workflow",
+        "multi-agent",
+        "lightweight",
+        "herdr"
+      ],
+      "version": "0.1.0"
+    }
+  ]
+}
