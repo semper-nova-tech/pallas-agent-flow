@@ -164,7 +164,9 @@ agent plugin marketplace add git@github.com:jmarlett93/pallas-agent-flow.git
 In a new interactive session, open `/plugins` and install `pallas-agent-flow` and
 `pallas-quick` at **user** scope so every workspace gets them. Project scope writes
 the install into that repository only. `pallas-quick` is the one-PR plugin; its
-skill is `/pallas-quick:quick-change`.
+skill is `/pallas-quick:quick-change`. `pallas-chief-of-staff` is the per-machine
+brief across repos, agents, PRs, roadmap, and Linear; its skill is
+`/pallas-chief-of-staff:chief-of-staff`.
 
 The CLI reads plugin installs from the workspace file
 `<repo>/.cursor/settings.json` (the working directory), alongside user installs
