@@ -186,3 +186,9 @@ The final report must state one of:
 
 After approval, hand `path@commit` to `orchestrate-feature`; do not invoke it
 automatically unless the human explicitly requests implementation.
+
+The approved PRD is on the current branch only. Another machine cannot see it
+until `product/prds/<feature-slug>.md` and the glossary or persona rows this
+interview changed are on the repository's default branch. Tell the human that
+the next step is a commit or pull request onto that branch. Do not push or open
+the pull request unless they ask. `project-manager` is what reads that branch.

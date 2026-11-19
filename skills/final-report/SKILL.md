@@ -116,3 +116,7 @@ Return the overall outcome, ordered PR list, glossary mismatches, critical evide
 unresolved blockers, and the readable final-report path. State whether commits, pushes,
 PR creation, merges, deployment, and hosted validation occurred; never imply external
 actions without evidence.
+
+When the outcome is `completed`, `pivoted`, or `abandoned`, tell the human to run
+`project-manager` so the completed-PRD ledger gains a row and the roadmap is
+rewritten. Do not invoke it.

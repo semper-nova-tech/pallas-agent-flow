@@ -45,6 +45,9 @@ artifacts use these names and no synonyms.
 | Preset | A named policy in `config/presets.json`: harness, checkpoints, published-pack mode, roles | profile, config |
 | Harness | The agent runtime executing the skills: Cursor or Claude Code | platform, client |
 | Adapter | An execution backend for workers, `native` or `herdr` | runner |
+| Roadmap | `product/roadmap.md` in the target repository; strategic direction. Several PRDs may be current. Rewritten whole only when one PRD is completed, keeping the others | backlog, status board |
+| In progress | `product/in-progress.md`; status harvested by `project-manager` and replaced every run | status log, kanban |
+| Completed PRDs | `product/completed-prds.md`; append-only ledger of finished PRDs | archive, changelog |
 
 ## Reserved ID prefixes
 
@@ -75,6 +78,7 @@ One prefix per record type. A run never introduces a second scheme.
 | Ponytail outcome | `accepted`, `changes-required`, `blocked` |
 | Unit state | `planned`, `ready`, `building`, `in-review`, `repairing`, `accepted`, `merged`, `abandoned`, `blocked` |
 | Published `Status:` line | `planned`, `in-progress`, `shipped`, `pivoted`, `abandoned` |
+| Portfolio mode | `idea`, `drafting`, `ready`, `discovery`, `building`, `blocked` — `in-progress.md` only |
 | Glossary term status | `existing`, `new`, `renamed`, `retired` |
 | Realignment class | `rename-only`, `requirement`, `contract-model-state-behavior-design`, `sequencing`, `scope` |
 | Realignment impact | `none`, `label-refresh`, `revalidate`, `regenerate` |

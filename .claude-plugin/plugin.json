@@ -1,7 +1,7 @@
 {
   "name": "pallas-agent-flow",
   "displayName": "Pallas Agent Flow",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Preset-driven multi-agent delivery flow for Claude Code.",
   "author": {
     "name": "jmarlett93",
@@ -25,6 +25,7 @@
     "./agents/claude/orchestrator.md",
     "./agents/claude/ponytail.md",
     "./agents/claude/product-spec.md",
+    "./agents/claude/project-manager.md",
     "./agents/claude/pr-sequencer.md",
     "./agents/claude/prd-reviewer.md",
     "./agents/claude/realign-run.md",
