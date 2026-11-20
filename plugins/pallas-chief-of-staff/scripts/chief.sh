@@ -19,9 +19,11 @@ Usage:
   chief.sh cursor set [ISO]
   chief.sh report new                 # prints the path for a new brief (text)
   chief.sh report open PATH           # Herdr tab + glow, or a plain fallback
-  chief.sh watch start [--interval SECONDS] [--brief-at HH:MM] [--agent NAME] [--plugin-dir DIR]
+  chief.sh watch start [--interval SECONDS] [--brief-at HH:MM] [--agent NAME] [--kind KIND] [--plugin-dir DIR]
   chief.sh watch stop
-  chief.sh fire-brief [--agent NAME] [--prompt TEXT] [--plugin-dir DIR]
+  chief.sh fire-brief [--agent NAME] [--kind KIND] [--prompt TEXT] [--plugin-dir DIR]
+      KIND is a Herdr agent kind (claude, cursor, codex, ...). Default: the kind of the agent that
+      started the watch, else claude.
   chief.sh collect ...                # the loop the watch pane runs
 EOF
   exit 2
@@ -94,6 +96,12 @@ plugin_installed() {
     jq -r .version "$HOME/.cursor/plugins/local/$1/.cursor-plugin/plugin.json"
     return 0
   fi
+  for f in "$HOME/.cursor/settings.json" "$PWD/.cursor/settings.json"; do
+    if [[ -f "$f" ]] && jq -e --arg p "$1" '(.plugins // {}) | keys[] | select(startswith($p))' "$f" >/dev/null 2>&1; then
+      echo installed
+      return 0
+    fi
+  done
   if [[ "$1" == pallas-agent-flow && -n "${PALLAS_AGENT_FLOW_HOME:-}" && -f "$PALLAS_AGENT_FLOW_HOME/.claude-plugin/plugin.json" ]]; then
     jq -r .version "$PALLAS_AGENT_FLOW_HOME/.claude-plugin/plugin.json"
     return 0
@@ -405,18 +413,22 @@ epoch_for_hhmm() {
 }
 
 cmd_fire_brief() {
-  # Ask a Claude agent in Herdr to write the brief. Starts one when none is alive.
+  # Ask the coding agent in Herdr to write the brief. Starts one when none is alive.
+  # The agent kind is whatever harness started the watch: claude, cursor, codex, and so on.
   ensure_registry
-  local agent=chief prompt="/pallas-chief-of-staff:chief-of-staff brief" plugin_dir
+  local agent=chief prompt="/pallas-chief-of-staff:chief-of-staff brief" plugin_dir kind=""
   plugin_dir="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
   while (($#)); do
     case "$1" in
       --agent) agent="${2:?}"; shift 2 ;;
+      --kind) kind="${2:?}"; shift 2 ;;
       --prompt) prompt="${2:?}"; shift 2 ;;
       --plugin-dir) plugin_dir="${2:?}"; shift 2 ;;
       *) usage ;;
     esac
   done
+  [[ -n "$kind" ]] || kind="$(jq -r '.watch.kind // empty' "$REGISTRY")"
+  [[ -n "$kind" ]] || kind=claude
   in_herdr || { printf 'fire-brief needs a Herdr session (HERDR_ENV=1).\n' >&2; exit 1; }
 
   local status="" pane="" started=false
@@ -438,25 +450,27 @@ cmd_fire_brief() {
     created="$(herdr tab create --cwd "$cwd" --label "$agent" --no-focus)"
     pane="$(jq -r '.result.root_pane.pane_id // .result.pane.pane_id // empty' <<<"$created")"
     [[ -n "$pane" ]] || { printf 'Could not create a pane for %s: %s\n' "$agent" "$created" >&2; exit 1; }
-    herdr agent start "$agent" --kind claude --pane "$pane" --timeout 90000 -- --plugin-dir "$plugin_dir" >/dev/null
+    # Both the Claude Code and Cursor CLIs accept --plugin-dir for a single process.
+    herdr agent start "$agent" --kind "$kind" --pane "$pane" --timeout 90000 -- --plugin-dir "$plugin_dir" >/dev/null
     started=true
   fi
   herdr agent prompt "$agent" "$prompt" >/dev/null
   herdr notification show "Brief requested" --body "$agent is writing the brief" --sound done >/dev/null 2>&1 || true
   jq --arg at "$(now_iso)" '.watch.last_fired_at = $at' "$REGISTRY" | write_registry 2>/dev/null || true
-  jq -n --arg agent "$agent" --argjson started "$started" --arg pane "$pane" \
-    '{fired: true, agent: $agent, started_new_agent: $started, pane_id: (if $pane == "" then null else $pane end)}'
+  jq -n --arg agent "$agent" --arg kind "$kind" --argjson started "$started" --arg pane "$pane" \
+    '{fired: true, agent: $agent, kind: $kind, started_new_agent: $started, pane_id: (if $pane == "" then null else $pane end)}'
 }
 
 cmd_collect() {
   # The loop that runs inside the watch pane. Pulls every interval; fires the brief at --brief-at.
   ensure_registry
-  local interval=900 brief_at="" agent=chief plugin_dir=""
+  local interval=900 brief_at="" agent=chief plugin_dir="" kind=""
   while (($#)); do
     case "$1" in
       --interval) interval="${2:?}"; shift 2 ;;
       --brief-at) brief_at="${2:?}"; shift 2 ;;
       --agent) agent="${2:?}"; shift 2 ;;
+      --kind) kind="${2:?}"; shift 2 ;;
       --plugin-dir) plugin_dir="${2:?}"; shift 2 ;;
       *) usage ;;
     esac
@@ -467,7 +481,7 @@ cmd_collect() {
     cmd_pull --quiet || printf '%s pull failed\n' "$(now_iso)" >&2
     if (( next_fire > 0 )) && (( $(date +%s) >= next_fire )); then
       # Late after a sleep is still fired, once; the next target is the following day.
-      cmd_fire_brief --agent "$agent" ${plugin_dir:+--plugin-dir "$plugin_dir"} || true
+      cmd_fire_brief --agent "$agent" ${kind:+--kind "$kind"} ${plugin_dir:+--plugin-dir "$plugin_dir"} || true
       next_fire=$((next_fire + 86400))
       while (( next_fire <= $(date +%s) )); do next_fire=$((next_fire + 86400)); done
     fi
@@ -486,22 +500,28 @@ cmd_watch() {
   case "${1:-}" in
     start)
       shift
-      local interval=900 brief_at="" agent=chief plugin_dir=""
+      local interval=900 brief_at="" agent=chief plugin_dir="" kind=""
       while (($#)); do
         case "$1" in
           --interval) interval="${2:?}"; shift 2 ;;
           --brief-at) brief_at="${2:?}"; shift 2 ;;
           --agent) agent="${2:?}"; shift 2 ;;
+          --kind) kind="${2:?}"; shift 2 ;;
           --plugin-dir) plugin_dir="${2:?}"; shift 2 ;;
           *) usage ;;
         esac
       done
       [[ -z "$brief_at" || "$brief_at" =~ ^([01][0-9]|2[0-3]):[0-5][0-9]$ ]] || { printf -- '--brief-at wants HH:MM, got %s\n' "$brief_at" >&2; exit 2; }
       in_herdr || { printf 'watch start needs a Herdr session (HERDR_ENV=1).\n' >&2; exit 1; }
-      # Name the calling agent so the collector knows who to prompt in the morning.
+      # Name the calling agent so the collector knows who to prompt in the morning, and
+      # remember its kind so a replacement agent runs on the same harness.
       local caller
       caller="$(herdr pane current 2>/dev/null | jq -r '.result.pane.pane_id // .result.pane_id // empty' || true)"
-      [[ -z "$caller" ]] || herdr agent rename "$caller" "$agent" >/dev/null 2>&1 || true
+      if [[ -n "$caller" ]]; then
+        [[ -n "$kind" ]] || kind="$(herdr agent get "$caller" 2>/dev/null | jq -r '.result.agent.agent // empty' || true)"
+        herdr agent rename "$caller" "$agent" >/dev/null 2>&1 || true
+      fi
+      [[ -n "$kind" ]] || kind=claude
       local existing
       existing="$(jq -r '.watch.pane_id // empty' "$REGISTRY")"
       if [[ -n "$existing" ]] && herdr pane get "$existing" >/dev/null 2>&1; then
@@ -511,12 +531,12 @@ cmd_watch() {
       created="$(herdr tab create --cwd "$HOME_DIR" --label "chief watch" --no-focus)"
       pane="$(jq -r '.result.root_pane.pane_id // .result.pane.pane_id // empty' <<<"$created")"
       [[ -n "$pane" ]] || { printf 'Could not create the watch pane: %s\n' "$created" >&2; exit 1; }
-      cmd="'$SCRIPT_PATH' collect --interval $interval --agent $agent"
+      cmd="'$SCRIPT_PATH' collect --interval $interval --agent $agent --kind $kind"
       [[ -z "$brief_at" ]] || cmd="$cmd --brief-at $brief_at"
       [[ -z "$plugin_dir" ]] || cmd="$cmd --plugin-dir '$plugin_dir'"
       herdr pane run "$pane" "$cmd" >/dev/null
-      jq --arg pane "$pane" --argjson i "$interval" --arg at "$(now_iso)" --arg brief_at "$brief_at" --arg agent "$agent" \
-        '.watch = {pane_id: $pane, interval_seconds: $i, started_at: $at, agent: $agent,
+      jq --arg pane "$pane" --argjson i "$interval" --arg at "$(now_iso)" --arg brief_at "$brief_at" --arg agent "$agent" --arg kind "$kind" \
+        '.watch = {pane_id: $pane, interval_seconds: $i, started_at: $at, agent: $agent, kind: $kind,
                    brief_at: (if $brief_at == "" then null else $brief_at end), last_fired_at: null}' "$REGISTRY" | write_registry
       jq '.watch' "$REGISTRY"
       ;;

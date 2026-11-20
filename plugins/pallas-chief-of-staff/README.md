@@ -11,7 +11,7 @@ plugin sits above it and delegates to it when it is installed.
 
 | Role | Model | Job |
 | --- | --- | --- |
-| Main session | any | Register, rank, write the brief |
+| Main session | any harness, any model | Register, rank, write the brief |
 | `source-scout` | Haiku | Read one source out of a snapshot and return one screen |
 | `pallas-agent-flow:project-manager` | as installed | Roadmap stage and next step per repository, when that plugin is present |
 
@@ -24,6 +24,11 @@ reads `.cursor-plugin/marketplace.json`; Claude Code reads `.claude-plugin/marke
 claude plugin marketplace add jmarlett93/pallas-agent-flow
 claude plugin install pallas-chief-of-staff@pallas-agent-flow --scope user
 ```
+
+In Cursor, add the same marketplace with `agent plugin marketplace add`, then install
+`pallas-chief-of-staff` at user scope from `/plugins`. The slash command is
+`/pallas-chief-of-staff:chief-of-staff` in Claude Code and either that or
+`/chief-of-staff` in Cursor, depending on whether the namespace is shown.
 
 Optional tools, each detected on every brief: `herdr` with `HERDR_ENV=1`, the
 `pallas-agent-flow` and `pallas-quick` plugins, `skema`, an authenticated `gh`, the
@@ -60,13 +65,15 @@ Herdr agents are included on every pull when Herdr is available.
 /pallas-chief-of-staff:chief-of-staff watch overnight, brief me at 6:45
 ```
 
-`watch` renames the current Claude agent `chief`, opens a Herdr tab running
+`watch` renames the current agent `chief`, records which harness it is (Claude Code,
+Cursor, Codex, or any other kind Herdr recognizes), opens a Herdr tab running
 `chief.sh collect`, and records the brief time. The collector pulls every 15 minutes
 with no model. At the brief time it pulls once more and prompts the `chief` agent with
-the brief command from outside Claude, so the brief does not depend on an in-session
-timer. If no Claude agent is alive it starts one in a new tab with this plugin loaded.
-A blocked agent is left alone and a notification says so. A time missed while the Mac
-slept fires once on wake.
+the brief command from outside the session, so the brief does not depend on an
+in-session timer. If no agent is alive it starts one of the same kind in a new tab with
+this plugin loaded through `--plugin-dir`, which both the Claude Code and Cursor CLIs
+accept. A blocked agent is left alone and a notification says so. A time missed while
+the Mac slept fires once on wake.
 
 The brief adds a Timeline section from the overnight snapshots: agents that went
 blocked or finished, PRs opened or merged, checks that failed.

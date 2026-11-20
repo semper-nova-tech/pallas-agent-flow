@@ -19,7 +19,7 @@ case "$1 ${2:-}" in
   "pane get") echo '{"result":{"pane":{"pane_id":"w1:p9"}}}' ;;
   "pane current") echo '{"result":{"pane":{"pane_id":"w1:p1"}}}' ;;
   "agent get") [[ -n "${FAKE_AGENT_STATUS:-}" ]] || exit 1
-               echo "{\"result\":{\"agent\":{\"agent_status\":\"$FAKE_AGENT_STATUS\",\"pane_id\":\"w1:p1\"}}}" ;;
+               echo "{\"result\":{\"agent\":{\"agent\":\"${FAKE_AGENT_KIND:-claude}\",\"agent_status\":\"$FAKE_AGENT_STATUS\",\"pane_id\":\"w1:p1\"}}}" ;;
   *) echo '{"result":{"type":"ok"}}' ;;
 esac
 EOF
@@ -91,17 +91,19 @@ out="$(bash "$chief" watch start --interval 60)"
 [[ "$(jq -r .pane_id <<<"$out")" == w1:p9 ]]
 [[ "$(jq -r .brief_at <<<"$out")" == null ]]
 grep -q -- "agent rename w1:p1 chief" "$FAKE_LOG"
-grep -q -- "pane run w1:p9 '$chief' collect --interval 60 --agent chief$" "$FAKE_LOG"
-# A second start replaces the live pane and carries the brief time.
+# No agent in the calling pane: the kind defaults to claude.
+[[ "$(jq -r .kind <<<"$out")" == claude ]]
+grep -q -- "pane run w1:p9 '$chief' collect --interval 60 --agent chief --kind claude$" "$FAKE_LOG"
+# A second start replaces the live pane, carries the brief time, and takes the caller's kind.
 : >"$FAKE_LOG"
-out="$(bash "$chief" watch start --brief-at 06:45 --agent morning)"
+out="$(FAKE_AGENT_STATUS=idle FAKE_AGENT_KIND=cursor bash "$chief" watch start --brief-at 06:45 --agent morning)"
 [[ "$(jq -r .brief_at <<<"$out")" == 06:45 ]]
+[[ "$(jq -r .kind <<<"$out")" == cursor ]]
 grep -q -- "pane close w1:p9" "$FAKE_LOG"
-grep -q -- "collect --interval 900 --agent morning --brief-at 06:45$" "$FAKE_LOG"
+grep -q -- "collect --interval 900 --agent morning --kind cursor --brief-at 06:45$" "$FAKE_LOG"
+# An explicit --kind wins.
+[[ "$(FAKE_AGENT_STATUS=idle FAKE_AGENT_KIND=cursor bash "$chief" watch start --kind codex | jq -r .kind)" == codex ]]
 ! bash "$chief" watch start --brief-at 6:45 >/dev/null 2>&1
-: >"$FAKE_LOG"
-bash "$chief" watch stop >/dev/null
-grep -q -- "pane close w1:p9" "$FAKE_LOG"
 
 # fire-brief: idle agent gets the prompt.
 : >"$FAKE_LOG"
@@ -120,13 +122,23 @@ grep -q -- "agent prompt chief" "$FAKE_LOG"
 ! FAKE_AGENT_STATUS=blocked bash "$chief" fire-brief >/dev/null
 ! grep -q -- "agent prompt" "$FAKE_LOG"
 grep -q -- "notification show Brief not sent" "$FAKE_LOG"
-# fire-brief: no agent alive starts Claude in a new tab with the plugin dir.
+# fire-brief: no agent alive starts one in a new tab with the plugin dir, on the watch's harness.
 : >"$FAKE_LOG"
 out="$(bash "$chief" fire-brief --plugin-dir /plug)"
 [[ "$(jq -r .started_new_agent <<<"$out")" == true ]]
+[[ "$(jq -r .kind <<<"$out")" == codex ]]
 grep -q -- "tab create --cwd $repo --label chief --no-focus" "$FAKE_LOG"
-grep -q -- "agent start chief --kind claude --pane w1:p9 --timeout 90000 -- --plugin-dir /plug" "$FAKE_LOG"
+grep -q -- "agent start chief --kind codex --pane w1:p9 --timeout 90000 -- --plugin-dir /plug" "$FAKE_LOG"
 grep -q -- "agent prompt chief /pallas-chief-of-staff:chief-of-staff brief" "$FAKE_LOG"
+# --kind on fire-brief overrides the watch, and --prompt replaces the slash command.
+: >"$FAKE_LOG"
+bash "$chief" fire-brief --kind cursor --prompt "/chief-of-staff brief" >/dev/null
+grep -q -- "agent start chief --kind cursor --pane w1:p9" "$FAKE_LOG"
+grep -q -- "agent prompt chief /chief-of-staff brief" "$FAKE_LOG"
+: >"$FAKE_LOG"
+bash "$chief" watch stop >/dev/null
+grep -q -- "pane close w1:p9" "$FAKE_LOG"
+[[ "$(jq -r .watch "$PALLAS_CHIEF_HOME/registry.json")" == null ]]
 
 [[ "$(bash "$chief" cursor set 2026-01-02T03:04:05Z | jq -r .last_brief_at)" == 2026-01-02T03:04:05Z ]]
 [[ "$(bash "$chief" pull --quiet | jq -r .since)" == 2026-01-02T03:04:05Z ]]

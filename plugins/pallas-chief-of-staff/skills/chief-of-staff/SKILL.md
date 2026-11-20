@@ -27,7 +27,8 @@ Another machine registers separately and keeps its own registry.
 ## Script
 
 `scripts/chief.sh` in this plugin does the plumbing. Find it at
-`${CLAUDE_PLUGIN_ROOT}/scripts/chief.sh`, else the `script_path` recorded in
+`${CLAUDE_PLUGIN_ROOT}/scripts/chief.sh` in Claude Code, else this plugin's install
+directory in Cursor, else the `script_path` recorded in
 `registry.json`, else `$PALLAS_AGENT_FLOW_HOME/plugins/pallas-chief-of-staff/scripts/chief.sh`.
 Every subcommand prints JSON except `report new`, which prints a path.
 
@@ -40,8 +41,8 @@ Every subcommand prints JSON except `report new`, which prints a path.
 | `snapshot latest` / `snapshot since ISO` | Snapshot paths for the timeline |
 | `cursor set [ISO]` | Record when the last brief was written |
 | `report new` / `report open PATH` | New brief path; open a brief in glow in a new Herdr tab, or print a fallback |
-| `watch start [--interval S] [--brief-at HH:MM] [--agent NAME] [--plugin-dir DIR]` / `watch stop` | Collector pane that pulls on an interval and fires the brief at a time, and its shutdown |
-| `fire-brief [--agent NAME]` | Prompt a live Claude agent in Herdr to write the brief, or start one. The collector calls it |
+| `watch start [--interval S] [--brief-at HH:MM] [--agent NAME] [--kind KIND] [--plugin-dir DIR]` / `watch stop` | Collector pane that pulls on an interval and fires the brief at a time, and its shutdown |
+| `fire-brief [--agent NAME] [--kind KIND] [--prompt TEXT]` | Prompt the live agent in Herdr to write the brief, or start one of the same kind. The collector calls it |
 
 ## Modes
 
@@ -146,29 +147,37 @@ For "watch overnight" or "brief me in the morning":
 1. Settle the time. "Brief me at 7" means `--brief-at 07:00`. "Fifteen minutes before I
    sit down at 7" means `06:45`. No time given: ask once, or default to `06:45`.
 2. Run `watch start --interval 900 --brief-at HH:MM --agent chief --plugin-dir <plugin root>`.
-   This renames the calling agent to `chief`, opens a Herdr tab running the collector
-   loop, and records both in the registry. The collector uses no model. At the brief
-   time it runs one last pull, then fires the brief from outside Claude:
+   This renames the calling agent to `chief`, records its Herdr kind (`claude`,
+   `cursor`, `codex`, and so on) so a replacement runs on the same harness, opens a
+   Herdr tab running the collector loop, and records all of it in the registry. The
+   collector uses no model. At the brief time it runs one last pull, then fires the
+   brief from outside the session:
    - a live `chief` agent that is `idle` or `done` gets the prompt
      `/pallas-chief-of-staff:chief-of-staff brief`;
    - a `working` agent is waited for, up to ten minutes, then prompted;
    - a `blocked` agent is left alone and a Herdr notification says the brief was not sent;
-   - no live agent means a new tab, `herdr agent start chief --kind claude` with the
-     plugin dir, then the prompt.
+   - no live agent means a new tab, `herdr agent start chief --kind <recorded kind>`
+     with `--plugin-dir`, then the prompt. Both the Claude Code and Cursor CLIs take
+     `--plugin-dir`.
+   When the harness shows this skill without the plugin prefix, pass
+   `--prompt "/chief-of-staff brief"` so the prompt matches what it lists.
    A brief time missed because the machine slept fires once on wake, then moves to
    the next day.
 3. Tell the human the two things the script cannot do: keep the Mac awake and keep
    Herdr running. Suggest `caffeinate -s` in any pane, or a `pmset repeat wakeorpoweron`
    schedule a few minutes before the brief time.
-4. Outside Herdr, `watch start` refuses. Fall back to `CronCreate`, one-shot at the brief
-   time, prompt `/pallas-chief-of-staff:chief-of-staff brief`, and say its limits: the
-   job lives only in this Claude session, fires only while the session is idle, and a
-   recurring job expires after seven days.
-5. Only when live alerts are asked for: arm `Monitor` with a loop that runs
-   `pull --quiet` every five minutes and prints one line when the `blocked` count rises
-   or a PR check turns failing. Cover failure too: print a line when `pull` itself
-   fails. Set the maximum timeout and re-arm on expiry. On an event, show a Herdr
-   notification and send a push notification.
+4. Outside Herdr, `watch start` refuses. Fall back to the harness's own scheduler when
+   it has one (Claude Code: `CronCreate`, one-shot at the brief time, prompt
+   `/pallas-chief-of-staff:chief-of-staff brief`) and say its limits: the job lives
+   only in this session, fires only while the session is idle, and a recurring job
+   expires after seven days. A harness with no scheduler gets the collector only, and
+   the human asks for the brief in the morning.
+5. Only when live alerts are asked for, and only when the harness has a background
+   monitor (Claude Code: `Monitor`): arm it with a loop that runs `pull --quiet` every
+   five minutes and prints one line when the `blocked` count rises or a PR check turns
+   failing. Cover failure too: print a line when `pull` itself fails. Set the maximum
+   timeout and re-arm on expiry. On an event, show a Herdr notification, and a push
+   notification when the harness offers one.
 6. The morning brief reads the overnight snapshots through the scouts and fills the
    Timeline section. Run `watch stop` after it unless the human asked to keep watching;
    a watch left running fires again at the same time the next day.
