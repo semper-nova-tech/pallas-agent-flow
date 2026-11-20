@@ -43,6 +43,25 @@
         "herdr"
       ],
       "version": "0.1.1"
+    },
+    {
+      "name": "pallas-chief-of-staff",
+      "source": "./plugins/pallas-chief-of-staff",
+      "description": "Per-machine executive brief across repos, worktrees, Herdr agents, pull requests, the roadmap, and Linear.",
+      "author": {
+        "name": "John Marlett",
+        "url": "https://github.com/jmarlett93"
+      },
+      "repository": "https://github.com/jmarlett93/pallas-agent-flow",
+      "license": "MIT",
+      "category": "productivity",
+      "tags": [
+        "brief",
+        "status",
+        "herdr",
+        "linear"
+      ],
+      "version": "0.1.0"
     }
   ]
 }

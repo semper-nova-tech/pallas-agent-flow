@@ -1,0 +1,17 @@
+{
+  "name": "pallas-chief-of-staff",
+  "version": "0.1.0",
+  "description": "Per-machine executive brief across repos, worktrees, Herdr agents, pull requests, the roadmap, and Linear, opened in glow in a Herdr tab.",
+  "author": {
+    "name": "jmarlett93"
+  },
+  "license": "MIT",
+  "keywords": [
+    "brief",
+    "status",
+    "herdr",
+    "linear"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}
