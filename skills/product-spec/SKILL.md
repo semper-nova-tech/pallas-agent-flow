@@ -152,7 +152,9 @@ If material gaps remain, return to the interview. Do not ask for approval of a
 PRD containing unresolved choices that would change product behavior.
 
 Present the exact draft path, version, commit or hash, the `Changed in this draft`
-block, and a short change summary. Pause for explicit human approval. An approval must
+block, and a short change summary. Open the draft in its viewer tab per the
+[terminal tools policy](../orchestrate-feature/references/terminal-tools.md), detected
+once at the start of the interview. Pause for explicit human approval. An approval must
 name the PRD version or exact file contents; silence, an edited file, or a
 conversational "looks good" without identifying the artifact is not approval.
 
@@ -174,8 +176,8 @@ Create or update:
 - `.pallas-agent-flow/product-specs/<run-id>/` as ignored run evidence with only:
   - `interview-decisions.md`: decisions appended per round
   - `review-findings.md`: one entry per reviewed draft
-  - `approval-record.md`: context root, status, approved version, approved commit or
-    hash, and the review findings that cleared it
+  - `approval-record.md`: context root, detected tools, status, approved version,
+    approved commit or hash, and the review findings that cleared it
 
 The final report must state one of:
 

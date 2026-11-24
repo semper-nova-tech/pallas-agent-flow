@@ -19,3 +19,4 @@ relationships and states rather than array order unless `sequence` is present.
 | `human-readable-naming.md` | Readable names, paths, narration, and isolated approval |
 | `published-review-surface.md` | Committed spec, overview, sequence, and PR notes outside `.pallas-agent-flow/` |
 | `feature-glossary.md` | Glossary rows as the naming contract, meaning change as scope, export reconciliation |
+| `terminal-tools.md` | Tool detection once per run, reused viewer tabs, no focus steal, fallbacks without Herdr |

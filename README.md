@@ -139,6 +139,17 @@ workspace for the run, then launches each Cursor worker in a real child pane and
 waits for it to settle, while Pallas Agent Flow retains ownership of packets, worktrees,
 reviews, and recovery. See [adapters/herdr/README.md](adapters/herdr/README.md).
 
+### Terminal tools
+
+When the session runs inside Herdr, the flow shows people what it wrote: published
+files, PRDs, and reports open in named tabs with glow, design diagrams open in the
+Skema Editor, PR diffs open in Hunk, and code opens in a TTT pane beside the agent.
+Tabs open without taking focus, are reused by label, and are never closed by the flow.
+None of these tools is required. A missing tool is named once per run, never
+installed without asking, and replaced by a printed path, a Mermaid diagram, or a plain
+diff summary. See
+[terminal-tools.md](skills/orchestrate-feature/references/terminal-tools.md).
+
 ### Cursor CLI, one session
 
 To try a checkout without a persistent install:

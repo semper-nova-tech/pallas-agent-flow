@@ -26,6 +26,8 @@ Create `run.md` with these sections in this order.
 - `preset`: selected key plus its resolved harness, approval checkpoints, published-pack
   mode, and role/model mappings
 - `harness` and `adapter`
+- `tools`: what [terminal-tools.md](terminal-tools.md) detected, for example
+  `herdr yes; glow yes; skema 0.3.4; hunk no; ttt yes`
 - `started-at` and `updated-at` as ISO-8601 timestamps
 - `current-phase`: one of `intake`, `technical-specs`, `spec-review`, `sequencing`,
   `building`, `recovery`, `reporting`, `closed`
