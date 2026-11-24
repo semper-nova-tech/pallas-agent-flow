@@ -23,12 +23,12 @@
         "planning",
         "code-review"
       ],
-      "version": "0.8.0"
+      "version": "0.8.1"
     },
     {
       "name": "pallas-quick",
       "source": "./plugins/pallas-quick",
-      "description": "Lightweight one-PR mode: Sonnet builds, Haiku searches and audits, Opus signs off.",
+      "description": "Lightweight one-PR mode (Sonnet builds, Haiku searches and audits, Opus signs off) and a read-only diff code review.",
       "author": {
         "name": "John Marlett",
         "url": "https://github.com/jmarlett93"
@@ -40,9 +40,10 @@
         "workflow",
         "multi-agent",
         "lightweight",
-        "herdr"
+        "herdr",
+        "code-review"
       ],
-      "version": "0.1.1"
+      "version": "0.2.0"
     },
     {
       "name": "pallas-chief-of-staff",
