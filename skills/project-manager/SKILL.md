@@ -144,7 +144,9 @@ Rewrite `in-progress.md` from the template. Put every found slug in the section
 for its stage, with where it was found and its next step. Put untracked slugs
 in Not on the roadmap as well, including the offer to add them.
 
-Then explain the same assessment to the human. Group by stage. For each item
+Open the refreshed `in-progress.md` in the `portfolio` viewer tab per the
+[terminal tools policy](../orchestrate-feature/references/terminal-tools.md). Then
+explain the same assessment to the human. Group by stage. For each item
 say the slug, where it was found, what the files show, and the next step from
 the table above. End the untracked group with the offer to add those lines to
 Now. Do not stop at a single next action when more than one item was found.

@@ -1,21 +1,27 @@
 # Diagram Policy
 
-Use diagrams only when they materially clarify meaningful relationships. Default to
-embedded Mermaid blocks in architecture Markdown, not separate image artifacts. Follow a
+Use diagrams only when they materially clarify meaningful relationships. Follow a
 repository-native format when discovery finds an established documentation convention.
+Otherwise, when the run's `tools` field records Skema, draw each design, domain model,
+and PR sequence diagram as a Skema Manifest at `diagrams/<diagram-slug>.json` in the
+published pack, render its SVG beside it with `skema render`, and embed the SVG under
+the diagram's heading. Open each new diagram per [terminal-tools.md](terminal-tools.md).
+Without Skema, embed Mermaid blocks in the Markdown, not separate image artifacts.
 Use [human-readable-output.md](human-readable-output.md) for diagram labels and paths.
 
 ## Required triggers and homes
 
 - A cross-system or domain-boundary change requires a current or proposed context or
   component flowchart in published `architecture-overview.md`.
+- Two or more new or changed models with relationships between them require a domain
+  model diagram in the overview.
 - A multi-step API, event, or job interaction requires a sequence diagram in the
   overview or the owning published PR note, usually backend.
 - A non-trivial lifecycle or UI/server state change requires a state diagram in the
   overview or the owning frontend/backend PR note.
 - An infrastructure topology, network, resource, or runtime change requires a deployment
   or topology flowchart in the overview. Show local and hosted differences when material.
-- More than one planned PR requires a Mermaid dependency DAG in published `sequence.md`.
+- More than one planned PR requires a dependency DAG in published `sequence.md`.
   For one PR, state that no dependency diagram is needed.
 - A PR note may add a small nominal-flow diagram for that PR's slice only.
 - Add an ADR diagram only when the decision is hard to understand without it.
@@ -38,7 +44,8 @@ punctuation or special characters. Avoid reserved IDs such as `end`, HTML, angle
 brackets, explicit colors or styles, and click directives.
 
 Validate syntax and rendering with repository tooling when available. Otherwise record a
-manual syntax review against these rules and do not claim rendered validation.
+manual syntax review against these rules and do not claim rendered validation. A Skema
+diagram is validated by a `skema render` that exits 0 with no unexplained warnings.
 
 ## Lifecycle
 

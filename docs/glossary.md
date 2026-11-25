@@ -45,6 +45,7 @@ artifacts use these names and no synonyms.
 | Preset | A named policy in `config/presets.json`: harness, checkpoints, published-pack mode, roles | profile, config |
 | Harness | The agent runtime executing the skills: Cursor or Claude Code | platform, client |
 | Adapter | An execution backend for workers, `native` or `herdr` | runner |
+| Viewer tab | A named Herdr tab the orchestrator or a human-facing skill opens so a person can read an artifact, diagram, or diff; see the terminal tools policy | window, popup, preview |
 | Roadmap | `product/roadmap.md` in the target repository; strategic direction. Several PRDs may be current. Rewritten whole only when one PRD is completed, keeping the others | backlog, status board |
 | In progress | `product/in-progress.md`; status harvested by `project-manager` and replaced every run | status log, kanban |
 | Completed PRDs | `product/completed-prds.md`; append-only ledger of finished PRDs | archive, changelog |

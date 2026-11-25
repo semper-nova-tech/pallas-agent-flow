@@ -37,6 +37,7 @@ docs/features/<feature-slug>/
 ├── architecture-overview.md
 ├── glossary.md
 ├── sequence.md
+├── diagrams/                      # Skema Manifests and SVGs, only when Skema draws them
 └── prs/
     └── <nn>-<domain>-<purpose-slug>.md
 ```
@@ -70,7 +71,7 @@ Describe the system after this work lands. Include only:
   ten lines
 - very simple object models: name, fields, invariants, using glossary names
 - contracts: inputs, outputs, errors, owners
-- justified Mermaid diagrams per [diagram-policy.md](diagram-policy.md)
+- justified diagrams per [diagram-policy.md](diagram-policy.md)
 
 Give every model, contract, and diagram a heading so PR notes can link to that facet.
 Do not bury the end state in per-area draft files. Domain drafts may exist in the run
@@ -119,4 +120,5 @@ Do not copy the build packet, test matrix, or worktree policy here.
 6. At any terminal state: set every `Status:` line and say in the README where the
    accurate end-state description now lives.
 
-Present the published pack, not the run folder, at every human approval checkpoint.
+Present the published pack, not the run folder, at every human approval checkpoint, and
+open the files under review per [terminal-tools.md](terminal-tools.md).

@@ -36,7 +36,8 @@ Read [run-schema.md](references/run-schema.md),
 [context-packets.md](references/context-packets.md),
 [diagram-policy.md](references/diagram-policy.md),
 [human-readable-output.md](references/human-readable-output.md),
-[published-docs.md](references/published-docs.md), and the plugin
+[published-docs.md](references/published-docs.md),
+[terminal-tools.md](references/terminal-tools.md), and the plugin
 [glossary](../../docs/glossary.md) before delegating. Include those policies and relevant
 assignments in every packet.
 
@@ -44,8 +45,9 @@ At intake, in this order:
 
 1. Derive the feature slug and the run-id `<yyyy-mm-dd>-<ticket>-<feature-slug>`.
 2. Create the run root `.pallas-agent-flow/runs/<run-id>/` and record its absolute path.
-3. Write `run.md` with the Names block, an empty Where things stand table, and the
-   resolved preset.
+3. Detect terminal tools per [terminal-tools.md](references/terminal-tools.md). Write
+   `run.md` with the Names block, an empty Where things stand table, the resolved
+   preset, and the `tools` field. Name any missing tool once, in one line.
 4. Create `aliases.md` with the Names block as its first rows.
 5. Create the feature glossary from `templates/feature/glossary.md` at the published
    pack path, or at the run root when the published-pack mode is `none`.
@@ -67,6 +69,10 @@ Only the orchestrator talks to the human. Workers never ask for approval or deci
 they finish with status `complete`, `clarification-required`, or `blocked` and put
 decision requests in their return packet. The orchestrator marks an artifact
 `accepted` in the index; only a human `approves` a checkpoint.
+
+Only the orchestrator opens viewer tabs. At every approval checkpoint, new design
+diagram, PR diff review, blocker that names a file, and final report, it opens what the
+human must read per the terminal tools policy. Workers return paths and open nothing.
 
 ## Workflow
 
