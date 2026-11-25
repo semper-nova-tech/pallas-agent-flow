@@ -24,6 +24,27 @@ Then run `/pallas-quick:quick-change <request>`. Without `--advisor`, the skill 
 the `sign-off` agent for the Opus decisions. In Cursor, install the plugin and run
 the same slash command.
 
+## Diff code review
+
+`/pallas-quick:diff-code-review <PR number, URL, or branch>` reviews one change without
+touching your checkout. It pulls the change into a worktree, diagrams the changed code by
+package, reviews it for architectural simplicity and naming, and writes a rename and
+simplification table plus line-by-line comments. It posts to the PR only after you pick
+one root-level comment or line-by-line comments. It never edits the code under review.
+
+| Role | Model | Job |
+| --- | --- | --- |
+| Main session | any | Pulls, diagrams, verifies findings, and posts on your answer |
+| `review-diff-lens` | Opus | Reviews the diff for simplicity or for naming |
+| `map-repo`, `find-call-sites` | Haiku | Package boundaries and callers of renamed exports |
+
+It uses two optional tools when they are installed and names any that are missing:
+[Skema](https://github.com/semper-nova-tech/pallas-skema) (`skema-diagram` skill and the
+`skema` CLI, 0.3.3 or newer) draws the diagrams, and Hunk (`cli-hunk` skill and the
+`hunk` CLI) walks the diff and holds the inline comments in your live session. Without
+them it draws plain-text diagrams and keeps the comments in its report. It never
+installs either one without asking.
+
 ## Herdr
 
 Start a quick change in its own worktree and pane:

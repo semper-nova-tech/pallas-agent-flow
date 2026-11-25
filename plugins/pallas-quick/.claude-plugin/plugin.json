@@ -1,8 +1,8 @@
 {
   "name": "pallas-quick",
   "displayName": "Pallas Quick",
-  "version": "0.1.1",
-  "description": "Lightweight mode for one-PR changes: Sonnet builds, Haiku searches and audits, Opus signs off.",
+  "version": "0.2.0",
+  "description": "Lightweight mode for one-PR changes (Sonnet builds, Haiku searches and audits, Opus signs off) and a read-only diff code review.",
   "author": {
     "name": "jmarlett93",
     "url": "https://github.com/jmarlett93"
@@ -11,13 +11,15 @@
   "keywords": [
     "workflow",
     "multi-agent",
-    "lightweight"
+    "lightweight",
+    "code-review"
   ],
   "skills": "./skills/",
   "agents": [
     "./agents/map-repo.md",
     "./agents/find-call-sites.md",
     "./agents/audit-diff.md",
-    "./agents/sign-off.md"
+    "./agents/sign-off.md",
+    "./agents/review-diff-lens.md"
   ]
 }
